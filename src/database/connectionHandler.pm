@@ -23,20 +23,20 @@ use warnings;
 use Exporter qw(import);
 
 # lib to handle with database
-use Bundle::DBI;
+use DBI;
 
 # include project definitions
-use definitions::globalDefinitions qw(false true);
-use definitions::projectDefinitions qw(DB_HOST DB_SID DB_PORT DB_USER DB_PASS);
+use globalDefinitions qw (true);
+use projectDefinitions qw(DB_HOST DB_SID DB_PORT DB_USER DB_PASS DEFINED_DATABASE);
 
 #############################################################################
 # subroutine to connect to oracle database
 #############################################################################
 sub dbConnectionOracle {
     # execute connection
-    my $db = DBI->connect("dbi:Oracle:host=" . DB_HOST . ";sid=" . DB_SID . ";port=" . DB_PORT . "",
-        "" . DB_USER . "/" . DB_PASS . "")
-        || die($DBI::errstr . "\n");
+    my $db = DBI->connect("dbi:Oracle:host=".DB_HOST.";sid=".DB_SID.";port=".DB_PORT."",
+        "".DB_USER."/".DB_PASS."")
+        || die($DBI::errstr."\n");
     $db->{AutoCommit} = 0;
     $db->{RaiseError} = 1;
     $db->{ora_check_sql} = 0;
@@ -82,6 +82,4 @@ sub dbDisconnect {
 }
 
 #############################################################################
-
 return true;
-

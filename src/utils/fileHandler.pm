@@ -1,6 +1,32 @@
-use warnings;
+# #####################################################################################################
+# 	Script:
+# 		fileHandler.pm
+#
+# 	Description:
+#		This script contains subroutines to handle with files
+#
+# 	Author:
+#		renanpelicari@gmail.com
+#
+#	Revision:
+#		1.0b	- 2017-11-12	- First version
+#
+# #####################################################################################################
+
+package fileHandler;
+
+#############################################################################
+# imports essentials
+#############################################################################
 use strict;
+use warnings;
 use Exporter qw(import);
+
+# include definitions
+use globalDefinitions qw(false true DEFAULT_SEPARATOR);
+use projectDefinitions qw(GENERATED_FILE_FOLDER GENERATED_FILE_EXTENSION);
+
+require 'interfaceUtils.pm';
 
 #############################################################################
 # subroutine to show file results
@@ -8,12 +34,12 @@ use Exporter qw(import);
 sub showFiles {
     my @resultFiles = @{$_[0]};
 
-    header("=");
+    interfaceUtils::header(DEFAULT_SEPARATOR);
     print BOLD, RED, "> Generated files:", RESET;
     foreach (@resultFiles) {
-        print "\n\t" . $_;
+        print "\n\t".$_;
     }
-    header("=");
+    interfaceUtils::header(DEFAULT_SEPARATOR);
     print "\n";
 }
 
@@ -32,12 +58,12 @@ sub createFile {
 
     if ($debug) {
         print "\nRESULT:";
-        header("=");
+        interfaceUtils::header(DEFAULT_SEPARATOR);
         print $content;
-        header("=");
+        interfaceUtils::header(DEFAULT_SEPARATOR);
     }
 
-    $filename = $file . "_" . $date . ".dat";
+    $filename = $file."_".$date.GENERATED_FILE_EXTENSION;
     chomp $filename;
 
     system("touch $filename");
@@ -54,7 +80,7 @@ sub createFile {
 #############################################################################
 # routine to move file to specific folder
 #############################################################################
-sub moveToHComFolder {
+sub moveToGenerateFilesFolder {
     my @resultFiles = @{$_[0]};
     my $autoConfirm = $_[1];
 
@@ -67,35 +93,32 @@ sub moveToHComFolder {
         if ($autoConfirm) {
             $input = 'Y';
         } else {
-            print "\n\nDo you want to move generated files to GENERATED_FILES_FOLDER folder (Y/N)?\n> ";
+            print "\n\nDo you want to move generated files to ".GENERATED_FILE_FOLDER." folder (Y/N)?\n> ";
             $input = <STDIN>;
             chomp $input;
         }
 
         if ($input =~ m/^[Y]$/i) {
             #match Y or y
-
             foreach (@resultFiles) {
-                system("mv $_ GENERATED_FILES_FOLDER");
+                system("mv $_ ".GENERATED_FILE_FOLDER);
             }
-
             $out = true;
 
         } elsif ($input =~ m/^[N]$/i) {
             #match N or n
-            header("=");
-            print "\nFile was not moved!";
-            header("=");
+            interfaceUtils::errorMessage("File was not moved!");
             $out = true;
         } else {
-            print "Invalid Option!";
+            interfaceUtils::errorMessage("Invalid Option!");
         }
     }
 
-    header("=");
-    print "\nFile moved (or keep) to the properly folder!";
-    header("=");
+    interfaceUtils::header(DEFAULT_SEPARATOR);
+    print "\nFile stored at target folder!";
+    interfaceUtils::header(DEFAULT_SEPARATOR);
 }
 
 #############################################################################
 return true;
+

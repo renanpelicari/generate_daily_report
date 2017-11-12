@@ -24,19 +24,21 @@ use strict;
 use warnings;
 use Exporter qw(import);
 
-# include project definitions
-use definitions::globalDefinitions qw(false true);
-use definitions::projectDefinitions qw(DEBUG_MODE DB_HOST DB_SID DB_PORT DB_USER DB_PASS);
-
 require '../database/queryHandler.pm';
+
+use globalDefinitions qw(true);
+
+# define internal constants
+use constant TABLE_NAME => "T_FOO_BAR";
+use constant PK_ID => "ID";
+use constant CODE_ATTR => "CODE";
+
 
 #############################################################################
 # example: get new foo bar code for test purpose
 #############################################################################
 sub getNewCode {
-    my $query = "SELECT CODE
-	             FROM (SELECT CODE FROM T_FOO_BAR ORDER BY ID DESC)
-	             WHERE ROWNUM = 1";
+    my $query = queryHandler::selectAny(TABLE_NAME, CODE_ATTR, PK_ID);
 
     return queryHandler::getNextElement($query);
 }
@@ -45,29 +47,35 @@ sub getNewCode {
 # example: get random foo bar code
 #############################################################################
 sub getRandomCode {
-    my $query = "SELECT CODE
-					FROM (SELECT CODE FROM T_FOO_BAR ORDER BY DBMS_RANDOM.VALUE)
-					WHERE ROWNUM = 1";
+    my $query = queryHandler::selectAny(TABLE_NAME, CODE_ATTR, undef);
 
     return queryHandler::getElement($query);
+}
+
+#############################################################################
+# get query to select one element
+# params:
+#   value -> value of column code
+# return:
+#   string with query
+#############################################################################
+sub getQuerySelectOne {
+    return queryHandler::selectOne(TABLE_NAME, PK_ID, CODE_ATTR, "'".$_[0]."'");
 }
 
 #############################################################################
 # subroutine to get geocode based on sku_code
 #############################################################################
 sub getIdByCode {
-    my $query = "SELECT ID FROM T_FOO_BAR WHERE CODE = '" . $_[0] . "'";
-
-    return queryHandler::getElement($query);
+    return queryHandler::getElement(getQuerySelectOne($_[0]));
 }
 
 #############################################################################
-# subroutine to get exists lg code
+# check if code exists
 #############################################################################
 sub existsByCode {
-    my $query = "SELECT ID FROM T_FOO_BAR WHERE CODE = '" . $_[0] . "'";
-
-    return queryHandler::exists($query);
+    return queryHandler::exists(getQuerySelectOne($_[0]));
 }
 
+#############################################################################
 return true;

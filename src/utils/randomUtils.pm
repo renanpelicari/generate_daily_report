@@ -1,9 +1,33 @@
-use warnings;
+# #####################################################################################################
+# 	Script:
+# 		randomUtils.pm
+#
+# 	Description:
+#		This script contains subroutines to create random value
+#
+# 	Author:
+#		renanpelicari@gmail.com
+#
+#	Revision:
+#		1.0b	- 2017-11-12	- First version
+#
+# #####################################################################################################
+
+package randomUtils;
+
+#############################################################################
+# imports essentials
+#############################################################################
 use strict;
+use warnings;
 use Exporter qw(import);
 
 #############################################################################
-# subroutine to get random string
+# get random string
+# params:
+#   quantity    -> delimit maximum length
+# return:
+#   a random string
 #############################################################################
 sub getRandomString {
     my $quantity = $_[0];
@@ -18,14 +42,13 @@ sub getRandomString {
 }
 
 #############################################################################
-# subroutine to get random date
+# get a random date
+# return:
+#   random date
 #############################################################################
 sub getRandomDate {
-    my $date = `date +%Y%m%d`;
-    chomp $date;
-
-    return $date;
+    return chomp `date +%Y%m%d`;
 }
 
 #############################################################################
-return true;
+return 1;

@@ -24,12 +24,6 @@ use warnings;
 use Exporter qw(import);
 
 #############################################################################
-# export constants/variables
-#############################################################################
-our @EXPORT = qw();
-our @EXPORT_OK = qw(false true DEBUG_MODE);
-
-#############################################################################
 # define constants
 #############################################################################
 
@@ -40,6 +34,15 @@ use constant true => 1;
 # debug mode on/off
 use constant DEBUG_MODE => false;
 
-#############################################################################
+# separator definitions
+use constant HEADER_SEPARATOR_SIZE => 67;
+use constant DEFAULT_SEPARATOR => "=";
 
+#############################################################################
+# export constants/variables
+#############################################################################
+our @EXPORT = qw();
+our @EXPORT_OK = qw(false true DEBUG_MODE HEADER_SEPARATOR_SIZE DEFAULT_SEPARATOR);
+
+#############################################################################
 return true;
