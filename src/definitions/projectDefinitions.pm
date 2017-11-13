@@ -33,8 +33,8 @@ use globalDefinitions qw(false true);
 use constant DEFINED_DATABASE => "ORACLE";
 
 # define db connection strings
-use constant SERVER_IP => "127.0.0.1";
-use constant SERVER_PORT => "1521";
+use constant DB_HOST => "127.0.0.1";
+use constant DB_PORT => "1521";
 use constant DB_SID => "SID";
 use constant DB_USER => "userdb";
 use constant DB_PASS => "passdb";
@@ -62,7 +62,7 @@ use constant GENERATED_FILE_EXTENSION => ".dat";
 # export constants/variables
 #############################################################################
 our @EXPORT = qw();
-our @EXPORT_OK = qw(DEFINED_DATABASE SERVER_IP SERVER_PORT DB_SID DB_USER
+our @EXPORT_OK = qw(DEFINED_DATABASE DB_HOST DB_PORT DB_SID DB_USER
 DB_PASS DB_TIMESTAMP_FORMAT DB_DATE_FORMAT DB_COMPLETEHOUR_FORMAT
 TIME_SHIFT_01_START TIME_SHIFT_01_FINISH TIME_SHIFT_02_START
 TIME_SHIFT_02_FINISH REPORT_NAME SET_GRAPHS LOG_FILE_APPLICATION LOG_FILENAME

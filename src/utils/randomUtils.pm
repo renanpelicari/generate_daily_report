@@ -38,7 +38,6 @@ sub getRandomString {
     $string .= $chars[rand @chars] for 1 .. $quantity;
 
     return $string;
-
 }
 
 #############################################################################

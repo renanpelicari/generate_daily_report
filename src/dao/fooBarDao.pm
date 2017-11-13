@@ -5,7 +5,7 @@
 # 	Description:
 #		This script contains queries examples
 #       It's necessary to change and create new ones according the project
-#       For test purposes, we will show connection to fake table
+#       As example, the subroutines show how to handle with fake (foo bar) table
 #
 # 	Author:
 #		renanpelicari@gmail.com
@@ -35,7 +35,9 @@ use constant CODE_ATTR => "CODE";
 
 
 #############################################################################
-# example: get new foo bar code for test purpose
+# get new code base on the last one
+# return:
+#   string containing new code
 #############################################################################
 sub getNewCode {
     my $query = queryHandler::selectAny(TABLE_NAME, CODE_ATTR, PK_ID);
@@ -44,7 +46,9 @@ sub getNewCode {
 }
 
 #############################################################################
-# example: get random foo bar code
+# get random foo bar code
+# return:
+#   string random foo bar code
 #############################################################################
 sub getRandomCode {
     my $query = queryHandler::selectAny(TABLE_NAME, CODE_ATTR, undef);
@@ -64,15 +68,23 @@ sub getQuerySelectOne {
 }
 
 #############################################################################
-# subroutine to get geocode based on sku_code
+# get foo bar id based on code
+# params:
+#   $_[0]   -> foo bar code
+# return:
+#   foo bar id
 #############################################################################
 sub getIdByCode {
     return queryHandler::getElement(getQuerySelectOne($_[0]));
 }
 
 #############################################################################
-# check if code exists
-#############################################################################
+# check if exists any foo bar with code informed
+# params:
+#   $_[0]   -> foo bar code
+# return:
+#   result of compare
+##############################################################################
 sub existsByCode {
     return queryHandler::exists(getQuerySelectOne($_[0]));
 }

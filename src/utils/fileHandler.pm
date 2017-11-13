@@ -23,53 +23,54 @@ use warnings;
 use Exporter qw(import);
 
 # include definitions
-use globalDefinitions qw(false true DEFAULT_SEPARATOR);
+use globalDefinitions qw(false true DEBUG_MODE DEFAULT_SEPARATOR);
 use projectDefinitions qw(GENERATED_FILE_FOLDER GENERATED_FILE_EXTENSION);
 
 require 'interfaceUtils.pm';
 
 #############################################################################
-# subroutine to show file results
+# routine to show result files
+# params:
+#   $content    -> content of file
+#   $prefix     -> prefix of filename
+# return:
+#   the name of file generated
 #############################################################################
 sub showFiles {
     my @resultFiles = @{$_[0]};
 
-    interfaceUtils::header(DEFAULT_SEPARATOR);
-    print BOLD, RED, "> Generated files:", RESET;
-    foreach (@resultFiles) {
-        print "\n\t".$_;
-    }
-    interfaceUtils::header(DEFAULT_SEPARATOR);
-    print "\n";
+    interfaceUtils::infoListMessage("Generated files:", @resultFiles);
 }
 
 #############################################################################
-# subroutine to create file
+# routine to create file
+# params:
+#   $content    -> content of file
+#   $prefix     -> prefix of filename
+# return:
+#   the name of file generated
 #############################################################################
 sub createFile {
     my $content = $_[0];
-    my $file = $_[1];
-    my $filename = "";
+    my $prefix = $_[1];
 
     chomp $content;
 
     my $date = `date +%Y%m%d-%H%M%S`;
     chomp $date;
 
-    if ($debug) {
-        print "\nRESULT:";
-        interfaceUtils::header(DEFAULT_SEPARATOR);
-        print $content;
-        interfaceUtils::header(DEFAULT_SEPARATOR);
+    if (DEBUG_MODE) {
+        interfaceUtils::infoMessage("Creating file with content ...\n".$content);
     }
 
-    $filename = $file."_".$date.GENERATED_FILE_EXTENSION;
+    my $filename = $prefix."_".$date.GENERATED_FILE_EXTENSION;
     chomp $filename;
 
-    system("touch $filename");
+    system("touch $filename")
+        or die interfaceUtils::errorMessage("Could not create file '$filename'");
 
     open(my $fh, '>:encoding(UTF-8)', $filename)
-        or die "Could not open file '$filename'";
+        or die interfaceUtils::errorMessage("Could not open file '$filename'");
 
     print $fh $content;
     close $fh;
@@ -78,7 +79,10 @@ sub createFile {
 }
 
 #############################################################################
-# routine to move file to specific folder
+# (void) routine to move file to specific folder
+# params:
+#   @resultFiles    -> array containing filenames that will move
+#   $autoConfirm    -> flag to inform if file will be move
 #############################################################################
 sub moveToGenerateFilesFolder {
     my @resultFiles = @{$_[0]};
@@ -90,15 +94,13 @@ sub moveToGenerateFilesFolder {
 
         my $input = '';
 
-        if ($autoConfirm) {
-            $input = 'Y';
-        } else {
+        if (!$autoConfirm) {
             print "\n\nDo you want to move generated files to ".GENERATED_FILE_FOLDER." folder (Y/N)?\n> ";
             $input = <STDIN>;
             chomp $input;
         }
 
-        if ($input =~ m/^[Y]$/i) {
+        if (($autoConfirm) || ($input =~ m/^[Y]$/i)) {
             #match Y or y
             foreach (@resultFiles) {
                 system("mv $_ ".GENERATED_FILE_FOLDER);
@@ -114,11 +116,8 @@ sub moveToGenerateFilesFolder {
         }
     }
 
-    interfaceUtils::header(DEFAULT_SEPARATOR);
-    print "\nFile stored at target folder!";
-    interfaceUtils::header(DEFAULT_SEPARATOR);
+    interfaceUtils::infoMessage("File stored at target folder!");
 }
 
 #############################################################################
 return true;
-

@@ -41,7 +41,7 @@ sub getElement {
 
     if (DEBUG_MODE) {interfaceUtils::showDebug("Sub - getElement", $query);}
 
-    my $db = dbConnect();
+    my $db = connectionHandler::dbConnect();
 
     my $sth = $db->prepare($query);
     $sth->execute();

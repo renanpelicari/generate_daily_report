@@ -22,6 +22,7 @@ package interfaceUtils;
 use strict;
 use warnings;
 use Exporter qw(import);
+use Term::ANSIColor qw(:constants); # text format (color/bold)
 
 # include definitions
 use globalDefinitions qw(true HEADER_SEPARATOR_SIZE DEFAULT_SEPARATOR);
@@ -95,14 +96,16 @@ sub wrongUsage {
 #############################################################################
 # show the messages
 # params:
-#   type     -> type of message
-#   message  -> String with message
+#   $type     -> type of message
+#   $message  -> String with message
+#   @lines    -> array containing info to show one by line
 # return:
 #   string formatted with message
 #############################################################################
 sub message {
     my $type = $_[0];
     my $message = $_[1];
+    my @lines = @{$_[2]};
 
     header(DEFAULT_SEPARATOR);
 
@@ -114,6 +117,10 @@ sub message {
 
     print $type.": \t\t".$message;
     print RESET;
+
+    foreach (@lines) {
+        print "\n\t".$_;
+    }
     header(DEFAULT_SEPARATOR);
     print "\n";
 }
@@ -126,7 +133,7 @@ sub message {
 #   string formatted with wrong message
 #############################################################################
 sub errorMessage {
-    message("ERROR", $_[0]);
+    message("ERROR", $_[0], undef);
 }
 
 #############################################################################
@@ -136,9 +143,33 @@ sub errorMessage {
 # return:
 #   string formatted with info message
 #############################################################################
-sub errorMessage {
-    message("INFO", $_[0]);
+sub infoMessage {
+    message("INFO", $_[0], undef);
 }
 
 #############################################################################
-return 1;
+# show the error messages
+# params:
+#   $_[0]    -> String with error message
+#   @{$_[1]} -> list of lines to show
+# return:
+#   string formatted with wrong message
+#############################################################################
+sub errorListMessage {
+    message("ERROR", $_[0], @{$_[1]});
+}
+
+#############################################################################
+# show the info messages
+# params:
+#   $_[0]    -> String with info message
+#   @{$_[1]} -> list of lines to show
+# return:
+#   string formatted with info message
+#############################################################################
+sub infoListMessage {
+    message("INFO", $_[0], @{$_[1]});
+}
+
+#############################################################################
+return true;

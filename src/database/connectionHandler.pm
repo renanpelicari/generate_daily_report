@@ -30,55 +30,55 @@ use globalDefinitions qw (true);
 use projectDefinitions qw(DB_HOST DB_SID DB_PORT DB_USER DB_PASS DEFINED_DATABASE);
 
 #############################################################################
-# subroutine to connect to oracle database
+# routine to connect to oracle database
+# return:
+#   db connection
 #############################################################################
-sub dbConnectionOracle {
-    # execute connection
-    my $db = DBI->connect("dbi:Oracle:host=".DB_HOST.";sid=".DB_SID.";port=".DB_PORT."",
-        "".DB_USER."/".DB_PASS."")
-        || die($DBI::errstr."\n");
+sub dbConnectOracle {
+    my $db = DBI->connect("dbi:Oracle:host=".DB_HOST.";sid=".DB_SID.";port=".DB_PORT."", "".DB_USER."/".DB_PASS."")
+        or die($DBI::errstr."\n");
     $db->{AutoCommit} = 0;
     $db->{RaiseError} = 1;
     $db->{ora_check_sql} = 0;
     $db->{RowCacheSize} = 16;
 
-    # return connection var
     return $db;
 }
 
 #############################################################################
-# subroutine to connect to default database
-#############################################################################
-sub dbConnection {
-    # check database definition
+# routine to connect to database
+# return:
+#   db connection
+# #############################################################################
+sub dbConnect {
     if (DEFINED_DATABASE eq 'ORACLE') {
-        return dbConnectionOracle();
+        return dbConnectOracle();
     }
 
     die "FATAL ERROR: Database connection is not defined!"
 }
 
 #############################################################################
-# subroutine to finish statement
-# you just need to use when the fetchrow will be finish prematurely
+# (void) routine to finish statement
+#       ps: you just need to use when the fetchrow will be finish prematurely
+# params:
+#   $db -> db connection
 #############################################################################
 sub dbFinishStatement {
-    # received the db var
     my $sth = $_[0];
 
-    # execute the command to disconnect
-    $sth->finish if defined($sth);
+    $sth->finish if defined($sth); # close statement
 }
 
 #############################################################################
-# subroutine to close the database connection
+# (void) routine to close the database connection
+# params:
+#   $db -> db connection
 #############################################################################
 sub dbDisconnect {
-    # received the db var
     my $db = $_[0];
 
-    # execute the command to disconnect
-    $db->disconnect if defined($db);
+    $db->disconnect if defined($db); # close connection
 }
 
 #############################################################################
