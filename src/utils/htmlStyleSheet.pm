@@ -1,4 +1,33 @@
-sub setCss() {
+# #####################################################################################################
+# 	Script:
+# 		htmlStyleSheet.pm
+#
+# 	Description:
+#		This script contains subroutines to define css
+#
+# 	Author:
+#		renanpelicari@gmail.com
+#
+#	Revision:
+#		1.0b	- 2017-11-13	- First version
+#
+# #####################################################################################################
+
+package htmlStyleSheet;
+
+#############################################################################
+# imports essentials
+#############################################################################
+use strict;
+use warnings;
+
+#############################################################################
+# Routine to get CSS definitions
+#
+# return:
+#   string containing css definitions
+#############################################################################
+sub getCss() {
     return "<style type='text/css'>
     			table {
 					table-layout:fixed;
@@ -36,3 +65,7 @@ sub setCss() {
 				}
 			</style>";
 }
+
+#############################################################################
+return 1;
+

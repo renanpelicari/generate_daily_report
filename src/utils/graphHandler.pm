@@ -1,14 +1,52 @@
+# #####################################################################################################
+# 	Script:
+# 		graphHandler.pm
+#
+# 	Description:
+#		This script contains subroutines to handle with graphs
+#
+# 	Author:
+#		renanpelicari@gmail.com
+#
+#   About graphs:
+#   	Framework used: Morris.JS
+#   	http://morrisjs.github.io/morris.js/
+#
+#	Revision:
+#		1.0b	- 2017-11-13	- First version
+#
+# #####################################################################################################
+
+package graphHandler;
+
+#############################################################################
+# imports essentials
+#############################################################################
 use strict;
 use warnings;
 use Exporter qw(import);
 
-require 'htmlGraphs.pm';
+# include definitions
+use globalDefinitions qw(true);
+
+require 'htmlGraphDefine.pm';
 
 #############################################################################
-# sub to set the graphs
+# sub to populate the graphs
 # this will only works with the Morris.js
+#
+# params:
+#   $graphType          -> type of graph (accepted values: Line or Bar)
+#   @columnsToShow      -> containing visible column indexes (eg: (0,1)
+#   @values             -> containing value list, and the parameters of
+#                          each element should be the same of @columnsToShow
+#   $goal               -> boolean to say if show the target or not
+#   $graphCtrl          -> used to create divs for each graph element
+#
+# return:
+#   string containing html content to build graph
 #############################################################################
-sub setGraphs {
+sub populateGraph {
     my $graphType = $_[0];
     my @columnsToShow = @{$_[1]};
     my @values = @{$_[2]};
@@ -54,3 +92,6 @@ sub setGraphs {
 
     return $fileContent;
 }
+
+#############################################################################
+return true;
