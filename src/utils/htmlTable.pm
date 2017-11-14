@@ -66,7 +66,7 @@ sub closeHeaderLine() {
 # return:
 #   string containing line start statement
 #############################################################################
-sub startHeader() {
+sub startLine() {
     if ($_[0]) {
         return "<tr class='diff'>";
     }

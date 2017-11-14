@@ -26,7 +26,7 @@ use Exporter qw(import);
 use globalDefinitions qw(false true DEBUG_MODE DEFAULT_SEPARATOR);
 use projectDefinitions qw(GENERATED_FILE_FOLDER GENERATED_FILE_EXTENSION);
 
-require 'interfaceUtils.pm';
+require 'messageUtils.pm';
 
 #############################################################################
 # routine to show result files
@@ -39,7 +39,7 @@ require 'interfaceUtils.pm';
 sub showFiles {
     my @resultFiles = @{$_[0]};
 
-    interfaceUtils::infoListMessage("Generated files:", @resultFiles);
+    messageUtils::infoListMessage("Generated files:", @resultFiles);
 }
 
 #############################################################################
@@ -60,17 +60,17 @@ sub createFile {
     chomp $date;
 
     if (DEBUG_MODE) {
-        interfaceUtils::infoMessage("Creating file with content ...\n".$content);
+        messageUtils::infoMessage("Creating file with content ...\n".$content);
     }
 
     my $filename = $prefix."_".$date.GENERATED_FILE_EXTENSION;
     chomp $filename;
 
     system("touch $filename")
-        or die interfaceUtils::errorMessage("Could not create file '$filename'");
+        or die messageUtils::errorMessage("Could not create file '$filename'");
 
     open(my $fh, '>:encoding(UTF-8)', $filename)
-        or die interfaceUtils::errorMessage("Could not open file '$filename'");
+        or die messageUtils::errorMessage("Could not open file '$filename'");
 
     print $fh $content;
     close $fh;
@@ -109,14 +109,15 @@ sub moveToGenerateFilesFolder {
 
         } elsif ($input =~ m/^[N]$/i) {
             #match N or n
-            interfaceUtils::errorMessage("File was not moved!");
+            messageUtils::errorMessage("File was not moved!");
             $out = true;
+
         } else {
-            interfaceUtils::errorMessage("Invalid Option!");
+            messageUtils::errorMessage("Invalid Option!");
         }
     }
 
-    interfaceUtils::infoMessage("File stored at target folder!");
+    messageUtils::infoMessage("File stored at target folder!");
 }
 
 #############################################################################

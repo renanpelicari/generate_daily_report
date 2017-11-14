@@ -54,7 +54,7 @@ sub populateGraph {
     my $graphCtrl = $_[4];
 
     # add a graph div
-    my $fileContent = htmlGraps::startDiv($graphCtrl);
+    my $fileContent = htmlGraphDefine::startDiv($graphCtrl);
 
     # start to add the content of graph
     $fileContent .= "Morris.".$graphType."({ element: 'graph_".$graphCtrl."', data: [";

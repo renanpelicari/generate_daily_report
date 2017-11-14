@@ -49,7 +49,7 @@ use constant TIME_SHIFT_02_START => "19:00:00";
 use constant TIME_SHIFT_02_FINISH => "06:59:59";
 
 # define logs and files
-use constant REPORT_NAME => "daily_report";
+use constant DAILY_REPORT_NAME => "daily_report";
 use constant SET_GRAPHS => true;
 use constant LOG_FILE_APPLICATION => "/usr/log/application/";
 use constant LOG_FILENAME => "app_test.log";
@@ -58,6 +58,7 @@ use constant LOG_FILENAME => "app_test.log";
 use constant GENERATED_FILE_FOLDER => "/tmp/";
 use constant GENERATED_FILE_EXTENSION => ".dat";
 
+
 #############################################################################
 # export constants/variables
 #############################################################################
@@ -65,8 +66,8 @@ our @EXPORT = qw();
 our @EXPORT_OK = qw(DEFINED_DATABASE DB_HOST DB_PORT DB_SID DB_USER
 DB_PASS DB_TIMESTAMP_FORMAT DB_DATE_FORMAT DB_COMPLETEHOUR_FORMAT
 TIME_SHIFT_01_START TIME_SHIFT_01_FINISH TIME_SHIFT_02_START
-TIME_SHIFT_02_FINISH REPORT_NAME SET_GRAPHS LOG_FILE_APPLICATION LOG_FILENAME
-GENERATED_FILE_FOLDER GENERATED_FILE_EXTENSION);
+TIME_SHIFT_02_FINISH DAILY_REPORT_NAME SET_GRAPHS LOG_FILE_APPLICATION
+LOG_FILENAME GENERATED_FILE_FOLDER GENERATED_FILE_EXTENSION);
 
 #############################################################################
 return true;

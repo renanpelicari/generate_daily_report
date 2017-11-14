@@ -32,6 +32,7 @@ use globalDefinitions qw(true);
 use constant TABLE_NAME => "T_FOO_BAR";
 use constant PK_ID => "ID";
 use constant CODE_ATTR => "CODE";
+use constant STATUS_ATTR => "STATUS";
 
 
 #############################################################################
@@ -88,6 +89,36 @@ sub getIdByCode {
 sub existsByCode {
     return queryHandler::exists(getQuerySelectOne($_[0]));
 }
+
+#############################################################################
+# get tasks worked overview
+# params:
+#   $_[0]   -> date start
+#   $_[0]   -> date finish
+# return:
+#   result list
+##############################################################################
+sub getTasksWorkedOverview {
+    my $query = "SELECT ".STATUS_ATTR.", count(*) quantity FROM ".TABLE_NAME
+        " WHERE date_performed BETWEEN '".$_[0]."' AND '".$_[1]."'
+        GROUP BY ".STATUS_ATTR;
+
+    return queryHandler::getElements($query);
+}
+
+#############################################################################
+# get overview by status
+#
+# return:
+#   result list
+##############################################################################
+sub getTasksWorkedOverview {
+    my $query = "SELECT ".STATUS_ATTR.", count(*) quantity FROM ".TABLE_NAME
+        ." GROUP BY ".STATUS_ATTR;
+
+    return queryHandler::getElements($query);
+}
+
 
 #############################################################################
 return true;

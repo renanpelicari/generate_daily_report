@@ -31,7 +31,7 @@ use projectDefinitions qw(DEFINED_DATABASE);
 
 # import connection handler
 require 'connectionHandler.pm';
-require '../utils/interfaceUtils.pm';
+require '../utils/messageUtils.pm';
 
 #############################################################################
 # subroutine to get element
@@ -39,7 +39,7 @@ require '../utils/interfaceUtils.pm';
 sub getElement {
     my $query = $_[0];
 
-    if (DEBUG_MODE) {interfaceUtils::showDebug("Sub - getElement", $query);}
+    if (DEBUG_MODE) {messageUtils::showDebug("Sub - getElement", $query);}
 
     my $db = connectionHandler::dbConnect();
 
@@ -54,6 +54,26 @@ sub getElement {
     connectionHandler::dbDisconnect($db);
 
     return $elem;
+}
+#############################################################################
+# subroutine to get elements
+#############################################################################
+sub getElements {
+    my $query = $_[0];
+
+    if (DEBUG_MODE) {messageUtils::showDebug("Sub - getElements", $query);}
+
+    my $db = connectionHandler::dbConnect();
+
+    my $sth = $db->prepare($query);
+    $sth->execute();
+
+    my @data = $sth->fetchrow_array();
+
+    connectionHandler::dbFinishStatement($sth);
+    connectionHandler::dbDisconnect($db);
+
+    return @data;
 }
 
 #############################################################################
