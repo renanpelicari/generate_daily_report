@@ -37,9 +37,9 @@ require 'htmlGraphDefine.pm';
 #
 # params:
 #   $graphType          -> type of graph (accepted values: Line or Bar)
-#   @columnsToShow      -> containing visible column indexes (eg: (0,1)
+#   @columns            -> containing columns
 #   @values             -> containing value list, and the parameters of
-#                          each element should be the same of @columnsToShow
+#                          each element should be the same of @columns
 #   $goal               -> boolean to say if show the target or not
 #   $graphCtrl          -> used to create divs for each graph element
 #
@@ -48,7 +48,7 @@ require 'htmlGraphDefine.pm';
 #############################################################################
 sub populateGraph {
     my $graphType = $_[0];
-    my @columnsToShow = @{$_[1]};
+    my @columns = @{$_[1]};
     my @values = @{$_[2]};
     my $goal = $_[3];
     my $graphCtrl = $_[4];
@@ -63,24 +63,34 @@ sub populateGraph {
     foreach my $data (@values) {
         my $i = 0;
 
-        foreach my $elem (@{$data}) {
-            if ($i eq $columnsToShow[0]) {$fileContent .= "{y:'".$elem;}
-            if ($i eq $columnsToShow[1]) {
-                $fileContent .= ($goal) ? "', a: '".$goal."', b: ".$elem : "', a: ".$elem;
+        if ($graphType eq 'Donut') {
+            foreach my @elem (@{$data}) {
+                $fileContent .= "{label:'".$elem[0].", value:".$elem[1]."}";
+                $fileContent .= ($i ne $#values) ? "," : "";
+                $i++;
+            }
+        } else {
+            foreach my $elem (@{$data}) {
+                if ($i eq 0) {
+                    $fileContent .= "{y:'".$elem;
+                } elsif ($i eq 1 && $#columns > 1) {
+                    $fileContent .= ($goal) ? "', a: '".$goal."', b: ".$elem : "', a: ".$elem;
+                }
             }
             $i++;
-        }
+            $fileContent .= "}";
 
-        $fileContent .= "}";
-
-        if ($#values eq $j) {
-            $fileContent .= ", ";
+            if ($#values eq $j) {
+                $fileContent .= ", ";
+            }
         }
         $j++;
     }
 
-    $fileContent .= "], xkey: 'y', lineColors: ['#20457a', '#7dba27', '#af3d4a'],
-					 barColors: ['#20457a','#7dba27','#af3d4a'], parseTime: false,";
+    $fileContent .= "], xkey: 'y',
+                    lineColors: ['#20457a', '#7dba27', '#af3d4a'],
+					barColors: ['#20457a','#7dba27','#af3d4a'],
+					parseTime: false,";
     if ($goal) {
         $fileContent .= " ykeys: ['a', 'b'], labels: ['Goal', 'Reached']";
     } else {
@@ -88,7 +98,7 @@ sub populateGraph {
     }
     $fileContent .= " , hideHover: 'always', xLabelAngle: 60 }).on('click', function(i, row){ console.log(i, row);});";
 
-    $fileContent .= htmlGraps::closeDiv();
+    $fileContent .= htmlGraphDefine::closeDiv();
 
     return $fileContent;
 }

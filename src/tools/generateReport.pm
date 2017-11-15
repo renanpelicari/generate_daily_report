@@ -65,19 +65,23 @@ require 'interfaceUtils.pm';
 require 'messageUtils.pm';
 require 'commons.pm';
 require 'fileHandler.pm';
+require 'html.pm';
+require 'reportService.pm';
 
 # define local var to debug mode
-my $lineDiff = false;    # var to control the colored tr in table
+my $graphCtrl = 0;    # var to control the colored tr in table
+
+# get graph ctrl
+sub getGraphCtrl {
+    return "report-".++$graphCtrl;
+}
 
 # handle log files
 sub handleLogs {
-    my $logname = "";
     my $fileContent = "";
-    my $title = "Logs from server";
+    my $title = "Current logs from server";
     my @columns = ("Info", "Quantity");
-    my $graphType = "bar";
-    my $goal;
-    my $arraySize = 2;
+    my $graphType = "Bar";
 
     # loop to collect all the lognames that need to be executed
     $logname = LOG_FILE_APPLICATION.LOG_FILENAME;
@@ -178,19 +182,17 @@ sub run {
     my $shift = $_[0];
     my $daysBefore = $_[1];
 
-    my $resultFile = "";
-
     my $fileContent = commons::buildHtmlStart();
 
-    header(DEFAULT_SEPARATOR);
+    interfaceUtils::header(DEFAULT_SEPARATOR);
     print "Shift: \t\t".$shift;
 
     # generate between date
     my ($between_date_a, $between_date_b) = commons::generateBetweenDate($shift, $daysBefore);
 
     # call the sub to handle with queries
-    $fileContent .= handleReport("tasks_worked", $between_date_a, $between_date_b);
-    $fileContent .= handleReport("overview_by_status");
+    $fileContent .= reportService::getTasksWorkedOverview(getGraphCtrl(), $between_date_a, $between_date_b);
+    $fileContent .= reportService::getOverviewByStatus(getGraphCtrl());
 
     # call the sub to handle with logs
     $fileContent .= handleLogs();

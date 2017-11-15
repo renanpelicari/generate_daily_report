@@ -112,7 +112,7 @@ sub getTasksWorkedOverview {
 # return:
 #   result list
 ##############################################################################
-sub getTasksWorkedOverview {
+sub getOverviewByStatus {
     my $query = "SELECT ".STATUS_ATTR.", count(*) quantity FROM ".TABLE_NAME
         ." GROUP BY ".STATUS_ATTR;
 

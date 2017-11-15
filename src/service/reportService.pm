@@ -36,9 +36,9 @@ require 'graphHandler.pm';
 # sub to execute the queries
 #############################################################################
 sub handleReport {
-    my @values = @{$_[0]};
+    my $graphType = $_[0];
     my @columns = @{$_[1]};
-    my $graphType = $_[2];
+    my @values = @{$_[2]};
     my $goal = $_[3];
     my @graphColumns = @{$_[4]};
 
@@ -46,7 +46,7 @@ sub handleReport {
 
     # check if the constant to set graphs is true
     if (SET_GRAPHS) {
-        $fileContent .= graphHandler::populateGraph(\@values, $graphType, $goal, \@graphColumns);
+        $fileContent .= graphHandler::populateGraph($graphType, \@columns, \@values, $goal, $graphType);
     }
 
     $fileContent .= commons::formatTableHeaderReport(\@columns);
@@ -62,15 +62,15 @@ sub handleReport {
 # each query are in the case
 #############################################################################
 sub getOverviewByStatus {
-    my $goal = false;
+    my $graphCtrl = $_[0];
 
-    my @graphColumns = (0, 1);
+    my $goal = false;
     my $title = "Overview tasks by status";
     my @columns = ("Status", "Quantity");
     my $graphType = "Bar";
     my @values = fooBarDao::getOverviewByStatus();
 
-    my $fileContent = handleReport(\@values, \@columns, $graphType, $goal, \@graphColumns);
+    my $fileContent = handleReport($graphType, \@columns, \@values, $goal, $graphCtrl);
     $fileContent .= commons::formatReport($title);
     return $fileContent;
 }
@@ -80,17 +80,17 @@ sub getOverviewByStatus {
 # each query are in the case
 #############################################################################
 sub getTasksWorkedOverview {
-    my $date_a = $_[0];
-    my $date_b = $_[1];
-    my $goal = false;
+    my $graphCtrl = $_[0];
+    my $date_a = $_[1];
+    my $date_b = $_[2];
 
-    my @graphColumns = (0, 1);
+    my $goal = false;
     my $title = "Tasks that were worked during the shift";
     my @columns = ("Status", "Quantity");
     my $graphType = "Bar";
     my @values = fooBarDao::getTasksWorkedOverview($date_a, $date_b);
 
-    my $fileContent = handleReport(\@values, \@columns, $graphType, $goal, \@graphColumns);
+    my $fileContent = handleReport($graphType, \@columns, \@values, $goal, $graphCtrl);
     $fileContent .= commons::formatReport($title);
     return $fileContent;
 }

@@ -58,13 +58,14 @@ sub addTableLine {
 sub addTableElement {
     my @data = @{$_[0]};
     my $elementType = $_[1];
+    my $lineStyle = $_[2];
 
     my $fileContent = "";
 
     # check if the header will be for a header, otherwise a simple tr will be used
     $fileContent .= ($elementType eq "header")
         ? htmlTable::startHeaderLine()
-        : htmlTable::startLine();
+        : htmlTable::startLine($lineStyle);
 
     foreach (@data) {
         if (defined($_)) {

@@ -28,7 +28,7 @@ use POSIX qw(strftime);
 use Term::ANSIColor qw(:constants); # text format (color/bold)
 
 # include definitions
-use globalDefinitions qw(DEFAULT_SEPARATOR);
+use globalDefinitions qw(true false DEFAULT_SEPARATOR);
 use projectDefinitions qw(TIME_SHIFT_01_START TIME_SHIFT_01_FINISH TIME_SHIFT_02_START TIME_SHIFT_02_FINISH SET_GRAPHS);
 
 require 'html.pm';
@@ -46,6 +46,12 @@ sub handleDay {
     return ($day < 10) ? "0".$day : $day;
 }
 
+#############################################################################
+# return different inverse line
+#############################################################################
+sub getInverseBool {
+    return (!$_[0] eq true);
+}
 
 #############################################################################
 # generate between date to use in the queries
@@ -155,6 +161,7 @@ sub formatTableHeaderReport {
 #############################################################################
 sub formatTableElementReport {
     my @values = @{$_[0]};
+    my $lineDiff = true;    # var to control the colored tr in table
 
     # show at shell
     print "\n\n";
@@ -163,11 +170,12 @@ sub formatTableElementReport {
 
     my $fileContent = "";
     foreach my $data (@values) {
-        $fileContent .= interfaceUtils::addTableElement(\@{$data}, "element");
+        $lineDiff = getInverseBool($lineDiff);
+        $fileContent .= interfaceUtils::addTableElement(\@{$data}, "element", $lineDiff);
     }
 
     return $fileContent;
 }
 
 #############################################################################
-return 1;
+return true;
