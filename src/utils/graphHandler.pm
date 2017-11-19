@@ -28,13 +28,12 @@ use Exporter qw(import);
 
 # include definitions
 use globalDefinitions qw(true);
-use globalDefinitions;
 
-require 'htmlGraphDefine.pm';
+#require 'htmlGraphDefine.pm';
 
 # get graph ctrl
 sub getGraphCounter {
-    return "graph_-".++$_GLOBAL_GRAPH_COUNTER;
+    return "graph_-".++$globalDefinitions::_GLOBAL_GRAPH_COUNTER;
 }
 
 #############################################################################

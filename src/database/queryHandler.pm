@@ -26,12 +26,12 @@ use Exporter qw(import);
 use DBI;
 
 # include project definitions
-use globalDefinitions qw(true DEBUG_MODE);
+use globalDefinitions qw(true);
 use projectDefinitions qw(DEFINED_DATABASE);
 
 # import connection handler
-require 'connectionHandler.pm';
-require '../utils/messageUtils.pm';
+#require 'connectionHandler.pm';
+#require '../utils/messageUtils.pm';
 
 #############################################################################
 # subroutine to get element
@@ -39,7 +39,7 @@ require '../utils/messageUtils.pm';
 sub getElement {
     my $query = $_[0];
 
-    if (DEBUG_MODE) {messageUtils::showDebug("Sub - getElement", $query);}
+    if ($globalDefinitions::_DEBUG_MODE) {messageUtils::showDebug("Sub - getElement", $query);}
 
     my $db = connectionHandler::dbConnect();
 
@@ -61,7 +61,7 @@ sub getElement {
 sub getElements {
     my $query = $_[0];
 
-    if (DEBUG_MODE) {messageUtils::showDebug("Sub - getElements", $query);}
+    if ($globalDefinitions::_DEBUG_MODE) {messageUtils::showDebug("Sub - getElements", $query);}
 
     my $db = connectionHandler::dbConnect();
 

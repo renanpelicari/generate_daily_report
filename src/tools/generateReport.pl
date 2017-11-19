@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/perl --
 # #####################################################################################################
 #    Script:
 #   	generateReport.pl
@@ -44,6 +44,13 @@ use strict;
 use warnings;
 use Data::Dumper qw(Dumper);
 use Switch;
+BEGIN {
+    push @INC,"../definitions/";
+    push @INC,"../utils/";
+    push @INC,"../database/";
+    push @INC,"../dao/";
+    push @INC,"../service/";
+}
 
 # lib to handle date/time
 use POSIX qw(strftime);
@@ -60,15 +67,8 @@ my %options = ();
 getopts('hs:b:d', \%options);
 
 # include definitions
-use globalDefinitions qw(false true DEBUG_MODE DEFAULT_SEPARATOR);
+use globalDefinitions qw(false true DEFAULT_SEPARATOR);
 use projectDefinitions qw(DAILY_REPORT_NAME SET_GRAPHS LOG_FILE_APPLICATION LOG_FILENAME);
-
-require 'interfaceUtils.pm';
-require 'messageUtils.pm';
-require 'commons.pm';
-require 'fileHandler.pm';
-require 'html.pm';
-require 'reportService.pm';
 
 #############################################################################
 # run the script
@@ -91,7 +91,7 @@ sub run {
     $fileContent .= reportService::getOverviewByStatus();
 
     # call the sub to handle with logs
-    $fileContent .= handleLogs();
+    $fileContent .= logService::getLogs();
 
     # end the html
     $fileContent .= html::finishBody();
@@ -141,7 +141,7 @@ sub main {
 
     # check if the parameter debug was informed
     if (defined($options{d})) {
-        DEBUG_MODE = true;
+        $globalDefinitions::_DEBUG_MODE = true;
     }
 
     my $daysBefore = 0;

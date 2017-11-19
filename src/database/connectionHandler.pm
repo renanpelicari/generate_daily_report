@@ -26,10 +26,10 @@ use Exporter qw(import);
 use DBI;
 
 # include project definitions
-use globalDefinitions qw (true DEBUG_MODE);
+use globalDefinitions qw (true);
 use projectDefinitions qw(DB_HOST DB_SID DB_PORT DB_USER DB_PASS DEFINED_DATABASE DB_TIMESTAMP_FORMAT);
 
-require 'messageUtils.pm';
+#require 'messageUtils.pm';
 
 #############################################################################
 # routine to connect to oracle database
@@ -92,7 +92,7 @@ sub dbAlterSession {
     my $db = $_[0];
 
     my $query = "ALTER SESSION SET NLS_TIMESTAMP_FORMAT = '".DB_TIMESTAMP_FORMAT."'";
-    if (DEBUG_MODE) {messageUtils::showDebug("Alter Session to set the timestamp properly to handle", $query);}
+    if ($globalDefinitions::_DEBUG_MODE) {messageUtils::showDebug("Alter Session to set the timestamp properly to handle", $query);}
     my $def = $db->prepare($query);
     $def->execute();
 }

@@ -31,21 +31,19 @@ use Exporter qw(import);
 use constant false => 0;
 use constant true => 1;
 
-# debug mode on/off
-use constant DEBUG_MODE => false;
-
 # separator definitions
 use constant HEADER_SEPARATOR_SIZE => 67;
 use constant DEFAULT_SEPARATOR => "=";
 
-# global counter to avoid same graph name
-our $_GLOBAL_GRAPH_COUNTER = 0;
+# global variables
+our $_DEBUG_MODE = false; # debug mode on/off
+our $_GLOBAL_GRAPH_COUNTER = 0; # counter for graphs
 
 #############################################################################
 # export constants/variables
 #############################################################################
-our @EXPORT = qw($_GLOBAL_GRAPH_COUNTER);
-our @EXPORT_OK = qw(false true DEBUG_MODE HEADER_SEPARATOR_SIZE DEFAULT_SEPARATOR);
+our @EXPORT = ($_GLOBAL_GRAPH_COUNTER);
+our @EXPORT_OK = qw(false true HEADER_SEPARATOR_SIZE DEFAULT_SEPARATOR);
 
 #############################################################################
 return true;

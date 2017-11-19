@@ -23,10 +23,10 @@ use warnings;
 use Exporter qw(import);
 
 # include definitions
-use globalDefinitions qw(false true DEBUG_MODE DEFAULT_SEPARATOR);
+use globalDefinitions qw(false true DEFAULT_SEPARATOR);
 use projectDefinitions qw(GENERATED_FILE_FOLDER GENERATED_FILE_EXTENSION FILE_ENCODING);
 
-require 'messageUtils.pm';
+#require 'messageUtils.pm';
 
 #############################################################################
 # routine to show result files
@@ -59,7 +59,7 @@ sub createFile {
     my $date = `date +%Y%m%d-%H%M%S`;
     chomp $date;
 
-    if (DEBUG_MODE) {
+    if ($globalDefinitions::_DEBUG_MODE) {
         messageUtils::infoMessage("Creating file with content ...\n".$content);
     }
 

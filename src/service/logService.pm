@@ -21,7 +21,7 @@ package logService;
 use strict;
 use warnings;
 
-require 'shellUtils.pm';
+#require 'shellUtils.pm';
 
 # include definitions
 use globalDefinitions qw(false);

@@ -22,15 +22,14 @@ use strict;
 use warnings;
 
 # include definitions
-use globalDefinitions qw(true false DEBUG_MODE DEFAULT_SEPARATOR);
+use globalDefinitions qw(true false DEFAULT_SEPARATOR);
 use projectDefinitions qw(SET_GRAPHS);
 
-require 'interfaceUtils.pm';
-require 'messageUtils.pm';
-require 'commons.pm';
-require 'fileHandler.pm';
-require 'fooBarDao.pm';
-require 'graphHandler.pm';
+#require 'interfaceUtils.pm';
+#require 'messageUtils.pm';
+#require 'fileHandler.pm';
+#require 'fooBarDao.pm';
+#require 'graphHandler.pm';
 
 #############################################################################
 # routine to handle with reports

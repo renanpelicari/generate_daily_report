@@ -24,7 +24,7 @@ use strict;
 use warnings;
 use Exporter qw(import);
 
-require '../database/queryHandler.pm';
+#require '../database/queryHandler.pm';
 
 use globalDefinitions qw(true);
 
