@@ -25,13 +25,13 @@ require 'shellUtils.pm';
 
 # include definitions
 use globalDefinitions qw(false);
+use projectDefinitions qw(SET_GRAPHS);
 
 #############################################################################
 # sub to receive array of log summary and generate donut graphs
 #############################################################################
 sub handleLogs {
-    my $graphCtrl = $_[0];
-    my @content = @{$_[1]};
+    my @values = @{$_[0]};
 
     my @columns = ("Info", "Quantity");
     my $graphType = 'Donut';
@@ -39,11 +39,11 @@ sub handleLogs {
 
     # check if the constant to set graphs is true
     if (SET_GRAPHS) {
-        $fileContent .= graphHandler::populateGraph($graphType, \@columns, \@content, false, $graphCtrl);
+        $fileContent .= graphHandler::populateGraph($graphType, \@values, false);
     }
 
     $fileContent .= commons::formatTableHeaderReport(\@columns);
-    $fileContent .= commons::formatTableElementReport(\@columns, \@values); #FIXME - pass array of array...@content
+    $fileContent .= commons::formatTableElementReport(\@columns, \@values);
 
     $fileContent .= htmlTable::closeTable();
 
@@ -54,8 +54,7 @@ sub handleLogs {
 # get quantity dmesg errors
 #############################################################################
 sub getDmesgError() {
-    my $graphCtrl = $_[0];
-    return ($graphCtrl, "Dmesg Errors",
+    return ("Dmesg Errors",
         shellUtils::executeCommand("dmesg  | grep -i error | wc -l"));
 }
 
@@ -63,8 +62,7 @@ sub getDmesgError() {
 # get quantity of root access
 #############################################################################
 sub getRootAccess() {
-    my $graphCtrl = $_[0];
-    return ($graphCtrl, "Root Access",
+    return ("Root Access",
         shellUtils::executeCommand("grep 'session opened for user root /var/log/auth.log' | wc -l"));
 }
 

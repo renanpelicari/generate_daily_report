@@ -33,20 +33,20 @@ require 'fooBarDao.pm';
 require 'graphHandler.pm';
 
 #############################################################################
-# sub to execute the queries
+# routine to handle with reports
+# like call routines to execute queries, generate html, graphs, logs
 #############################################################################
 sub handleReport {
     my $graphType = $_[0];
     my @columns = @{$_[1]};
     my @values = @{$_[2]};
     my $goal = $_[3];
-    my @graphColumns = @{$_[4]};
 
     my $fileContent = "";
 
     # check if the constant to set graphs is true
     if (SET_GRAPHS) {
-        $fileContent .= graphHandler::populateGraph($graphType, \@columns, \@values, $goal, $graphType);
+        $fileContent .= graphHandler::populateGraph($graphType, \@values, $goal);
     }
 
     $fileContent .= commons::formatTableHeaderReport(\@columns);
@@ -58,29 +58,24 @@ sub handleReport {
 }
 
 #############################################################################
-# handle with queries
-# each query are in the case
+# get file content containing overview by status
 #############################################################################
 sub getOverviewByStatus {
-    my $graphCtrl = $_[0];
-
     my $goal = false;
     my $title = "Overview tasks by status";
     my @columns = ("Status", "Quantity");
     my $graphType = "Bar";
     my @values = fooBarDao::getOverviewByStatus();
 
-    my $fileContent = handleReport($graphType, \@columns, \@values, $goal, $graphCtrl);
+    my $fileContent = handleReport($graphType, \@columns, \@values, $goal);
     $fileContent .= commons::formatReport($title);
     return $fileContent;
 }
 
 #############################################################################
-# handle with queries
-# each query are in the case
+# get file content containing overview worked tasks
 #############################################################################
-sub getTasksWorkedOverview {
-    my $graphCtrl = $_[0];
+sub getOverviewWorkedTasks {
     my $date_a = $_[1];
     my $date_b = $_[2];
 
@@ -90,7 +85,7 @@ sub getTasksWorkedOverview {
     my $graphType = "Bar";
     my @values = fooBarDao::getTasksWorkedOverview($date_a, $date_b);
 
-    my $fileContent = handleReport($graphType, \@columns, \@values, $goal, $graphCtrl);
+    my $fileContent = handleReport($graphType, \@columns, \@values, $goal);
     $fileContent .= commons::formatReport($title);
     return $fileContent;
 }

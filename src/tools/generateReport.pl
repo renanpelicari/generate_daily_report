@@ -1,3 +1,4 @@
+#!/usr/bin/perl
 # #####################################################################################################
 #    Script:
 #   	generateReport.pl
@@ -21,6 +22,7 @@
 #   	2.2b	- 2016-08-24	- Improvement in the way that graphs are being shown / Added some queries
 #   	2.3b	- 2016-08-28	- Public and shared script
 #       2.5b    - 2017-11-13    - Refactor script (split functions in files, generify the execution of scripts)
+#       2.6b    - 2017-11-19    - Refactor script - Last adjustments
 #
 #    About graphs:
 #   	To work the graphs in the HTML, you must use the Morris.js
@@ -50,7 +52,7 @@ use POSIX qw(strftime);
 use Getopt::Std;
 
 #############################################################################
-# golbal variables 
+# golbal variables
 #############################################################################
 
 # define the parameters that will be available
@@ -59,7 +61,7 @@ getopts('hs:b:d', \%options);
 
 # include definitions
 use globalDefinitions qw(false true DEBUG_MODE DEFAULT_SEPARATOR);
-use projectDefinitions qw(DAILY_REPORT_NAME SET_GRAPHS);
+use projectDefinitions qw(DAILY_REPORT_NAME SET_GRAPHS LOG_FILE_APPLICATION LOG_FILENAME);
 
 require 'interfaceUtils.pm';
 require 'messageUtils.pm';
@@ -67,112 +69,6 @@ require 'commons.pm';
 require 'fileHandler.pm';
 require 'html.pm';
 require 'reportService.pm';
-
-# define local var to debug mode
-my $graphCtrl = 0;    # var to control the colored tr in table
-
-# get graph ctrl
-sub getGraphCtrl {
-    return "report-".++$graphCtrl;
-}
-
-# handle log files
-sub handleLogs {
-    my $fileContent = "";
-    my $title = "Current logs from server";
-    my @columns = ("Info", "Quantity");
-    my $graphType = "Bar";
-
-    # loop to collect all the lognames that need to be executed
-    $logname = LOG_FILE_APPLICATION.LOG_FILENAME;
-
-    # array with commands to get logs from server
-    # this array is composed with 2 columns
-    # first one: The name that will be shown in the result / Kind of alias
-    # second one: the command
-    # if you need add more elements here, you need to guarantee the last element will not have a comma
-    #
-    # example with less info, to be more clear:
-    # my @info = (
-    # 	["title",
-    #		"command"],
-    # 	["title",
-    #		"command"],
-    # 	["title",
-    #		"command"],
-    # 	["title",
-    #		"command"]
-    # );
-    my @info = (
-        [ "Server Down",
-            "grep \"Connection refused\" ".$logname." | cut -d: -f1 | wc -l;" ],
-        [ "Conn. Failed",
-            "grep -e \"Trying to reestablish connection\" ".$logname." | wc -l" ]
-    );
-
-    my @result;
-    my $i = 0;
-    my $j = 0;
-
-    # for each element in the array, do:
-    for my $row (@info) {
-        # for each element in a row of array, do:
-        for my $element (@$row) {
-            if ($i eq 1) {
-                # if is the second element, call the sub to execute the command on the server
-                # save the result in another array, that will be used to output results
-                $result[$j][$i] = executeCommand($element);
-            } else {
-                # else, save the title another array, that will be used to output results
-                $result[$j][$i] = $element;
-            }
-
-            $i++;
-        }
-        $i = 0;
-        $j++;
-    }
-
-    # starting to create html content
-    $fileContent .= handleHTML("div_page_ini");
-    $fileContent .= handleHTML("header_01", $title);
-
-    # check if the constant to set graphs is true
-    if (SET_GRAPHS) {
-        # call the sub to set the graphs
-        #$fileContent .= setGraphs(\@result, $graphType, $goal, $arraySize, \@columns);
-    }
-
-    header(DEFAULT_SEPARATOR);
-    print BOLD, YELLOW, "> ".$title, RESET;
-
-    # call the table definitions
-    $fileContent .= handleHTML("table_ini");
-
-    print "\n\n";
-    # add the first lines according with the quantity of array / lines with dashes ---
-    addTableLine(\@columns);
-
-    # fill with the header content
-    $fileContent .= addTableElement(\@columns, "header");
-    # add more lines with dash ---
-    addTableLine(\@columns);
-
-    # foreach element in the result array, do:
-    foreach my $array (@result) {
-        # fill with the content
-        $fileContent .= addTableElement($array, "element");
-    }
-
-    # add more lines with dash ---
-    addTableLine(\@columns);
-
-    $fileContent .= handleHTML("table_end");
-    $fileContent .= handleHTML("div_page_end");
-
-    return $fileContent;
-}
-
 
 #############################################################################
 # run the script
@@ -191,8 +87,8 @@ sub run {
     my ($between_date_a, $between_date_b) = commons::generateBetweenDate($shift, $daysBefore);
 
     # call the sub to handle with queries
-    $fileContent .= reportService::getTasksWorkedOverview(getGraphCtrl(), $between_date_a, $between_date_b);
-    $fileContent .= reportService::getOverviewByStatus(getGraphCtrl());
+    $fileContent .= reportService::getOverviewWorkedTasks($between_date_a, $between_date_b);
+    $fileContent .= reportService::getOverviewByStatus();
 
     # call the sub to handle with logs
     $fileContent .= handleLogs();
@@ -228,7 +124,7 @@ sub help {
     print "\n\t./generateReport.pl -s 1 -d";
     print "\n\t./generateReport.pl -s 2 -b 2";
     print "\n\nVERSION:";
-    print "\n\t2.5b\t- 2017-11-13";
+    print "\n\t2.6b\t- 2017-11-19";
     header(DEFAULT_SEPARATOR);
 }
 

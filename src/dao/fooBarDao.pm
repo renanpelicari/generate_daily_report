@@ -119,6 +119,5 @@ sub getOverviewByStatus {
     return queryHandler::getElements($query);
 }
 
-
 #############################################################################
 return true;

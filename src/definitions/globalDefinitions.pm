@@ -38,10 +38,13 @@ use constant DEBUG_MODE => false;
 use constant HEADER_SEPARATOR_SIZE => 67;
 use constant DEFAULT_SEPARATOR => "=";
 
+# global counter to avoid same graph name
+our $_GLOBAL_GRAPH_COUNTER = 0;
+
 #############################################################################
 # export constants/variables
 #############################################################################
-our @EXPORT = qw();
+our @EXPORT = qw($_GLOBAL_GRAPH_COUNTER);
 our @EXPORT_OK = qw(false true DEBUG_MODE HEADER_SEPARATOR_SIZE DEFAULT_SEPARATOR);
 
 #############################################################################

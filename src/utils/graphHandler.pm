@@ -28,8 +28,14 @@ use Exporter qw(import);
 
 # include definitions
 use globalDefinitions qw(true);
+use globalDefinitions;
 
 require 'htmlGraphDefine.pm';
+
+# get graph ctrl
+sub getGraphCounter {
+    return "graph_-".++$_GLOBAL_GRAPH_COUNTER;
+}
 
 #############################################################################
 # sub to populate the graphs
@@ -48,16 +54,16 @@ require 'htmlGraphDefine.pm';
 #############################################################################
 sub populateGraph {
     my $graphType = $_[0];
-    my @columns = @{$_[1]};
-    my @values = @{$_[2]};
-    my $goal = $_[3];
-    my $graphCtrl = $_[4];
+    my @values = @{$_[1]};
+    my $goal = $_[2];
+
+    my $graphCtrl = getGraphCounter();
 
     # add a graph div
     my $fileContent = htmlGraphDefine::startDiv($graphCtrl);
 
     # start to add the content of graph
-    $fileContent .= "Morris.".$graphType."({ element: 'graph_".$graphCtrl."', data: [";
+    $fileContent .= "Morris.".$graphType."({ element: '".$graphCtrl."', data: [";
 
     my $j = 0;
     foreach my $data (@values) {
@@ -73,7 +79,7 @@ sub populateGraph {
             foreach my $elem (@{$data}) {
                 if ($i eq 0) {
                     $fileContent .= "{y:'".$elem;
-                } elsif ($i eq 1 && $#columns > 1) {
+                } elsif ($i eq 1 && $#values > 1) {
                     $fileContent .= ($goal) ? "', a: '".$goal."', b: ".$elem : "', a: ".$elem;
                 }
             }

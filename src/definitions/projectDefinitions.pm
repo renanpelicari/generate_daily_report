@@ -58,6 +58,8 @@ use constant LOG_FILENAME => "app_test.log";
 use constant GENERATED_FILE_FOLDER => "/tmp/";
 use constant GENERATED_FILE_EXTENSION => ".dat";
 
+# file encoding
+use constant FILE_ENCODING => "UTF-8";
 
 #############################################################################
 # export constants/variables
@@ -67,7 +69,7 @@ our @EXPORT_OK = qw(DEFINED_DATABASE DB_HOST DB_PORT DB_SID DB_USER
 DB_PASS DB_TIMESTAMP_FORMAT DB_DATE_FORMAT DB_COMPLETEHOUR_FORMAT
 TIME_SHIFT_01_START TIME_SHIFT_01_FINISH TIME_SHIFT_02_START
 TIME_SHIFT_02_FINISH DAILY_REPORT_NAME SET_GRAPHS LOG_FILE_APPLICATION
-LOG_FILENAME GENERATED_FILE_FOLDER GENERATED_FILE_EXTENSION);
+LOG_FILENAME GENERATED_FILE_FOLDER GENERATED_FILE_EXTENSION FILE_ENCODING);
 
 #############################################################################
 return true;

@@ -22,7 +22,7 @@ use strict;
 use warnings;
 
 #############################################################################
-# execute commands in server
+# execute commands at shell
 #############################################################################
 sub executeCommand {
     my $command = $_[0];

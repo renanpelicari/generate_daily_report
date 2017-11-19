@@ -24,7 +24,7 @@ use Exporter qw(import);
 
 # include definitions
 use globalDefinitions qw(false true DEBUG_MODE DEFAULT_SEPARATOR);
-use projectDefinitions qw(GENERATED_FILE_FOLDER GENERATED_FILE_EXTENSION);
+use projectDefinitions qw(GENERATED_FILE_FOLDER GENERATED_FILE_EXTENSION FILE_ENCODING);
 
 require 'messageUtils.pm';
 
@@ -69,7 +69,7 @@ sub createFile {
     system("touch $filename")
         or die messageUtils::errorMessage("Could not create file '$filename'");
 
-    open(my $fh, '>:encoding(UTF-8)', $filename)
+    open(my $fh, '>:encoding('.FILE_ENCODING.')', $filename)
         or die messageUtils::errorMessage("Could not open file '$filename'");
 
     print $fh $content;
