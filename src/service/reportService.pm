@@ -77,8 +77,8 @@ sub getOverviewByStatus {
 # get file content containing overview worked tasks
 #############################################################################
 sub getOverviewWorkedTasks {
-    my $date_a = $_[1];
-    my $date_b = $_[2];
+    my $date_a = $_[0];
+    my $date_b = $_[1];
 
     my $goal = false;
     my $title = "Tasks that were worked during the shift";
