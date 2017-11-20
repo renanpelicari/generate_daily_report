@@ -1,15 +1,33 @@
-# generate_daily_report
-Perl script to generate report from DB and logfile / Output in terminal and html file with table and graphs
+# Description:
+	This project containing a lot of useful libs, like:
+	    - File handlers;
+	    - Queries and DB handlers;
+	    - HTML, CSS and Graphs generator;
+	    - Log handlers;
+	    - Shell commands hendler;
+	    - Generate nice views for shell;
+	    - Message (log, error, info) handlers;
+	Also containing usefull scripts, like:
+	    - generateReport.pl     - generate html report containing table and graphs, based on queries
+    
+# About project:
+    With purpose to help and provide some routines that can be useful, it was made to share with community :)
 
-This script should use to collect the production results based on shifts.
-The informations can be collected from DB, also from logfiles.
-The idea is not split the routines in different files/scripts, because should be simple to adapt and use in another projects and situations.
+# Pre requirements
+    - Guarantee the LD_LIBRARY_HOME is properly defined
+    - Install DBI (by CPAN)
+    - Install DBD::Oracle (by CPAN)
 
-HOW TO USE:
+# About graphs:
+	To work the graphs in the HTML, you must use the Morris.js
+	http://morrisjs.github.io/morris.js/
+	
+# How To Use:
+    Environment that already pre configured Perl, also the pre requirements (section above).
+    A execute permission should be configured (chmod +x ...)
+    And to check how to use, you just need to view the help menu: ./generateReport.pl -h
 
-You need to run in Linux or Unix like.
-Also need to be prepared to run perl scripts.
-A execute permission should be configured (chmod +x generateDailyReport.pl)
-And to check how to use, you just need to view the help menu: ./generateDailyReport.pl -h
-
-PS: This file will be update with more details.
+# Author:
+	Renan Peliçari - renanpelicari@gmail.com
+	https://github.com/renanpelicari
+	https://www.linkedin.com/in/renanpelicari/    
