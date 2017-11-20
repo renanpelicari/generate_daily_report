@@ -91,7 +91,7 @@ sub wrongUsage {
 sub message {
     my $type = $_[0];
     my $message = $_[1];
-    my @lines = @{$_[2]};
+    my @lines = @{$_[2]} if defined;
 
     interfaceUtils::header(DEFAULT_SEPARATOR);
 
@@ -107,6 +107,7 @@ sub message {
     foreach (@lines) {
         print "\n\t".$_;
     }
+
     interfaceUtils::header(DEFAULT_SEPARATOR);
     print "\n";
 }

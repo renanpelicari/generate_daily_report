@@ -41,7 +41,7 @@ use projectDefinitions qw(DB_HOST DB_SID DB_PORT DB_USER DB_PASS DEFINED_DATABAS
 #############################################################################
 sub dbConnectOracle {
     my $db = DBI->connect("dbi:Oracle:host=".DB_HOST.";sid=".DB_SID.";port=".DB_PORT."", "".DB_USER."/".DB_PASS."")
-        or die($DBI::errstr."\n");
+        or die(messageUtils::errorMessage($DBI::errstr));
     $db->{AutoCommit} = 0;
     $db->{RaiseError} = 1;
     $db->{ora_check_sql} = 0;
