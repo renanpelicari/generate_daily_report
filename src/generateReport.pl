@@ -10,6 +10,8 @@
 #
 #    Author:
 #   	renanpelicari@gmail.com
+#   	https://github.com/renanpelicari
+#   	https://www.linkedin.com/in/renanpelicari/
 #
 #    Revision:
 #   	1.1b	- 2016-08-12	- First stable version
@@ -59,10 +61,14 @@ use Getopt::Std;
 my %options = ();
 getopts('hs:b:d', \%options);
 
-# include definitions
-use lib '../definitions/';
-use lib '../utils/';
-use lib '../service/';
+# include all folders inside lib (necessary for .pm libs)
+use lib 'lib/dao/';
+use lib 'lib/database/';
+use lib 'lib/definitions/';
+use lib 'lib/service/';
+use lib 'lib/utils/';
+
+# import only libs used in this script
 require 'messageUtils.pm';
 require 'interfaceUtils.pm';
 require 'commons.pm';
@@ -129,6 +135,10 @@ sub help {
     print "\n\t./generateReport.pl -s 2 -b 2";
     print "\n\nVERSION:";
     print "\n\t2.6b\t- 2017-11-19";
+    print "\n\nAUTHOR:";
+    print "\n\tRenan Peliçari (renanpelicari\@gmail.com)";
+    print "\n\thttps://github.com/renanpelicari";
+    print "\n\thttps://www.linkedin.com/in/renanpelicari/";
     interfaceUtils::header(DEFAULT_SEPARATOR);
 }
 

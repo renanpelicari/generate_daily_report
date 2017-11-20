@@ -25,8 +25,6 @@ use warnings;
 use globalDefinitions qw(true false DEFAULT_SEPARATOR);
 use projectDefinitions qw(SET_GRAPHS);
 
-use lib '../utils/';
-use lib '../dao/';
 require 'interfaceUtils.pm';
 require 'messageUtils.pm';
 require 'fileHandler.pm';
