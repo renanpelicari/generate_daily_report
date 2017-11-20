@@ -147,5 +147,17 @@ sub selectAny {
     die "FATAL ERROR: Database connection is not defined!"
 }
 
+
+sub execute {
+    my $query = $_[0];
+
+    if ($globalDefinitions::_DEBUG_MODE) {messageUtils::showDebug("Sub - getElements", $query);}
+
+    my $db = connectionHandler::dbConnect();
+
+    my $sth = $db->prepare($query);
+    $sth->execute();
+}
+
 #############################################################################
 return true;

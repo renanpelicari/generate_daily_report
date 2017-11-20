@@ -33,8 +33,8 @@
 #    How TO Use:
 #      You need to run in Linux or Unix like.
 #      Also need to be prepared to run perl scripts.
-#      A execute permission should be configured (chmod +x generateDailyReport.pl)
-#      And to check how to use, you just need to view the help menu: ./generateDailyReport.pl -h
+#      A execute permission should be configured (chmod +x generateReport.pl)
+#      And to check how to use, you just need to view the help menu: ./generateReport.pl -h
 # #####################################################################################################
 
 package generateReport;
@@ -45,7 +45,6 @@ package generateReport;
 use strict;
 use warnings;
 use Data::Dumper qw(Dumper);
-use Switch;
 
 # lib to handle date/time
 use POSIX qw(strftime);
