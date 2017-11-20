@@ -23,14 +23,15 @@ use warnings;
 use Exporter qw(import);
 use Term::ANSIColor qw(:constants); # text format (color/bold)
 
-# include definitions
+require 'interfaceUtils.pm';
+
 use globalDefinitions qw(true DEFAULT_SEPARATOR);
 
 #############################################################################
 # subroutine to exit the script
 #############################################################################
 sub quit {
-    header(DEFAULT_SEPARATOR);
+    interfaceUtils::header(DEFAULT_SEPARATOR);
     print "\nBye...\n\n";
     exit();
 }
@@ -47,14 +48,14 @@ sub showDebug {
     my $message = $_[0];
     my $query = $_[1];
 
-    header(DEFAULT_SEPARATOR);
+    interfaceUtils::header(DEFAULT_SEPARATOR);
     print "DEBUG MODE";
     print "\nINFO: \t".$message;
     if ($query) {
         $query =~ s/\t//g;
         print "\nQUERY: \n".$query.";"."\n";
     }
-    header(DEFAULT_SEPARATOR);
+    interfaceUtils::header(DEFAULT_SEPARATOR);
     print "\n";
 }
 
@@ -68,15 +69,14 @@ sub showDebug {
 sub wrongUsage {
     my $errorMsg = $_[0];
 
-    header(DEFAULT_SEPARATOR);
+    interfaceUtils::header(DEFAULT_SEPARATOR);
     print BOLD, RED;
     print "ERROR: \t\tWrong option or value.";
     print "\nMESSAGE: \t".$errorMsg;
     print "\nTODO: \t\tPlease check the options and examples at the menu!";
     print RESET;
-    header(DEFAULT_SEPARATOR);
+    interfaceUtils::header(DEFAULT_SEPARATOR);
     print "\n";
-    help();
 }
 
 #############################################################################
@@ -93,7 +93,7 @@ sub message {
     my $message = $_[1];
     my @lines = @{$_[2]};
 
-    header(DEFAULT_SEPARATOR);
+    interfaceUtils::header(DEFAULT_SEPARATOR);
 
     if ($type eq 'ERROR') {
         print BOLD, RED;
@@ -107,7 +107,7 @@ sub message {
     foreach (@lines) {
         print "\n\t".$_;
     }
-    header(DEFAULT_SEPARATOR);
+    interfaceUtils::header(DEFAULT_SEPARATOR);
     print "\n";
 }
 

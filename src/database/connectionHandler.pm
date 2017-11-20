@@ -25,6 +25,9 @@ use Exporter qw(import);
 # lib to handle with database
 use DBI;
 
+use lib '../utils';
+require 'messageUtils.pm';
+
 # include project definitions
 use globalDefinitions qw (true);
 use projectDefinitions qw(DB_HOST DB_SID DB_PORT DB_USER DB_PASS DEFINED_DATABASE DB_TIMESTAMP_FORMAT);

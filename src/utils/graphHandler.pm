@@ -29,11 +29,11 @@ use Exporter qw(import);
 # include definitions
 use globalDefinitions qw(true);
 
-#require 'htmlGraphDefine.pm';
+require 'htmlGraphDefine.pm';
 
 # get graph ctrl
 sub getGraphCounter {
-    return "graph_-".++$globalDefinitions::_GLOBAL_GRAPH_COUNTER;
+    return ++$globalDefinitions::_GLOBAL_GRAPH_COUNTER;
 }
 
 #############################################################################
@@ -56,7 +56,7 @@ sub populateGraph {
     my @values = @{$_[1]};
     my $goal = $_[2];
 
-    my $graphCtrl = getGraphCounter();
+    my $graphCtrl = "graph-".getGraphCounter();
 
     # add a graph div
     my $fileContent = htmlGraphDefine::startDiv($graphCtrl);
@@ -69,7 +69,8 @@ sub populateGraph {
         my $i = 0;
 
         if ($graphType eq 'Donut') {
-            foreach my @elem (@{$data}) {
+            foreach my $line (@{$data}) {
+                my @elem = $line;
                 $fileContent .= "{label:'".$elem[0].", value:".$elem[1]."}";
                 $fileContent .= ($i ne $#values) ? "," : "";
                 $i++;

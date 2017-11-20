@@ -24,7 +24,8 @@ use strict;
 use warnings;
 use Exporter qw(import);
 
-#require '../database/queryHandler.pm';
+use lib '../database/';
+require 'queryHandler.pm';
 
 use globalDefinitions qw(true);
 
@@ -33,7 +34,6 @@ use constant TABLE_NAME => "T_FOO_BAR";
 use constant PK_ID => "ID";
 use constant CODE_ATTR => "CODE";
 use constant STATUS_ATTR => "STATUS";
-
 
 #############################################################################
 # get new code base on the last one
@@ -100,8 +100,8 @@ sub existsByCode {
 ##############################################################################
 sub getTasksWorkedOverview {
     my $query = "SELECT ".STATUS_ATTR.", count(*) quantity FROM ".TABLE_NAME
-        " WHERE date_performed BETWEEN '".$_[0]."' AND '".$_[1]."'
-        GROUP BY ".STATUS_ATTR;
+        ." WHERE date_performed BETWEEN '".$_[0]."' AND '".$_[1]."'"
+        ." GROUP BY ".STATUS_ATTR;
 
     return queryHandler::getElements($query);
 }

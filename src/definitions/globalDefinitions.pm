@@ -18,7 +18,6 @@ package globalDefinitions;
 #############################################################################
 # imports essentials
 #############################################################################
-
 use strict;
 use warnings;
 use Exporter qw(import);
@@ -42,8 +41,8 @@ our $_GLOBAL_GRAPH_COUNTER = 0; # counter for graphs
 #############################################################################
 # export constants/variables
 #############################################################################
-our @EXPORT = ($_GLOBAL_GRAPH_COUNTER);
-our @EXPORT_OK = qw(false true HEADER_SEPARATOR_SIZE DEFAULT_SEPARATOR);
+our @EXPORT = ();
+our @EXPORT_OK = qw(false true HEADER_SEPARATOR_SIZE DEFAULT_SEPARATOR $_DEBUG_MODE $_GLOBAL_GRAPH_COUNTER);
 
 #############################################################################
 return true;

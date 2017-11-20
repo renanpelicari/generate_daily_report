@@ -44,13 +44,6 @@ use strict;
 use warnings;
 use Data::Dumper qw(Dumper);
 use Switch;
-BEGIN {
-    push @INC,"../definitions/";
-    push @INC,"../utils/";
-    push @INC,"../database/";
-    push @INC,"../dao/";
-    push @INC,"../service/";
-}
 
 # lib to handle date/time
 use POSIX qw(strftime);
@@ -67,6 +60,17 @@ my %options = ();
 getopts('hs:b:d', \%options);
 
 # include definitions
+use lib '../definitions/';
+use lib '../utils/';
+use lib '../service/';
+require 'messageUtils.pm';
+require 'interfaceUtils.pm';
+require 'commons.pm';
+require 'fileHandler.pm';
+require 'html.pm';
+require 'logService.pm';
+require 'reportService.pm';
+
 use globalDefinitions qw(false true DEFAULT_SEPARATOR);
 use projectDefinitions qw(DAILY_REPORT_NAME SET_GRAPHS LOG_FILE_APPLICATION LOG_FILENAME);
 
@@ -104,7 +108,7 @@ sub run {
 # subroutine to show the help
 #############################################################################
 sub help {
-    header(DEFAULT_SEPARATOR);
+    interfaceUtils::header(DEFAULT_SEPARATOR);
     print "SCRIPT:";
     print "\n\tgenerateReport.pl";
     print "\n\nDESCRIPTION:";
@@ -125,7 +129,7 @@ sub help {
     print "\n\t./generateReport.pl -s 2 -b 2";
     print "\n\nVERSION:";
     print "\n\t2.6b\t- 2017-11-19";
-    header(DEFAULT_SEPARATOR);
+    interfaceUtils::header(DEFAULT_SEPARATOR);
 }
 
 #############################################################################
@@ -163,9 +167,11 @@ sub main {
         }
 
         messageUtils::wrongUsage("Wrong shift was informed. Only 1 and 2 are available!");
+        help();
     }
 
     messageUtils::wrongUsage("None or wrong parameter was informed!");
+    help();
 }
 
 #############################################################################

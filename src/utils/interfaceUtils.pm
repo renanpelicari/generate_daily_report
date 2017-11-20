@@ -22,6 +22,8 @@ use strict;
 use warnings;
 use Exporter qw(import);
 
+require 'htmlTable.pm';
+
 # include definitions
 use globalDefinitions qw(true HEADER_SEPARATOR_SIZE DEFAULT_SEPARATOR);
 
@@ -33,7 +35,11 @@ use globalDefinitions qw(true HEADER_SEPARATOR_SIZE DEFAULT_SEPARATOR);
 #   string with separator to show
 #############################################################################
 sub header {
-    my $separator = $_[rand ($_[0])] for 1 .. HEADER_SEPARATOR_SIZE;
+    my $separator = "";
+
+    for (my $i=0; $i < HEADER_SEPARATOR_SIZE; $i++) {
+        $separator .= $_[0];
+    }
 
     print "\n".$separator."\n";
 }

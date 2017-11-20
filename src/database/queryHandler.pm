@@ -30,8 +30,9 @@ use globalDefinitions qw(true);
 use projectDefinitions qw(DEFINED_DATABASE);
 
 # import connection handler
-#require 'connectionHandler.pm';
-#require '../utils/messageUtils.pm';
+use lib '../utils';
+require 'messageUtils.pm';
+require 'connectionHandler.pm';
 
 #############################################################################
 # subroutine to get element

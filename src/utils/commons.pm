@@ -22,6 +22,12 @@ use strict;
 use warnings;
 use Data::Dumper qw(Dumper);
 
+require 'html.pm';
+require 'htmlStyleSheet.pm';
+require 'htmlGraphDefine.pm';
+require 'htmlTable.pm';
+require 'interfaceUtils.pm';
+
 # lib to handle date/time
 use POSIX qw(strftime);
 

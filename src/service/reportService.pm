@@ -25,11 +25,13 @@ use warnings;
 use globalDefinitions qw(true false DEFAULT_SEPARATOR);
 use projectDefinitions qw(SET_GRAPHS);
 
-#require 'interfaceUtils.pm';
-#require 'messageUtils.pm';
-#require 'fileHandler.pm';
-#require 'fooBarDao.pm';
-#require 'graphHandler.pm';
+use lib '../utils/';
+use lib '../dao/';
+require 'interfaceUtils.pm';
+require 'messageUtils.pm';
+require 'fileHandler.pm';
+require 'graphHandler.pm';
+require 'fooBarDao.pm';
 
 #############################################################################
 # routine to handle with reports

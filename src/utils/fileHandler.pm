@@ -26,7 +26,7 @@ use Exporter qw(import);
 use globalDefinitions qw(false true DEFAULT_SEPARATOR);
 use projectDefinitions qw(GENERATED_FILE_FOLDER GENERATED_FILE_EXTENSION FILE_ENCODING);
 
-#require 'messageUtils.pm';
+require 'messageUtils.pm';
 
 #############################################################################
 # routine to show result files

@@ -37,7 +37,7 @@ use warnings;
 # return:
 #   string containing javascript and css imports
 #############################################################################
-sub getGraphImport() {
+sub getGraphImport {
     return "<link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css'>
             <script src='//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js'></script>
             <script src='//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js'></script>
@@ -62,8 +62,8 @@ sub getGraphImport() {
 # return:
 #   string containing div and javascript reference
 #############################################################################
-sub startDiv() {
-    return "<div id='graph_".$_[0]."'></div>
+sub startDiv {
+    return "<div id='".$_[0]."'></div>
             <script type=\"text/javascript\">";
 }
 
@@ -74,7 +74,7 @@ sub startDiv() {
 # return:
 #   string containing close script statement
 #############################################################################
-sub closeDiv() {
+sub closeDiv {
     return "</script>";
 }
 
