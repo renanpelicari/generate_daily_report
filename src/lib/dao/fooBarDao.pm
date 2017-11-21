@@ -119,5 +119,27 @@ sub getOverviewByStatus {
     return queryHandler::getElements($query);
 }
 
+sub deleteById {
+    my $query = "DELETE FROM ".TABLE_NAME." WHERE ID = ".$_[0];
+    queryHandler::execute($query);
+
+}
+
+sub deleteByIdIn {
+    my $query = "DELETE FROM ".TABLE_NAME." WHERE ID IN (".@{$_[0]}.")";
+    queryHandler::execute($query);
+}
+
+sub deleteByIdBetween {
+    my $query = "DELETE FROM ".TABLE_NAME." WHERE ID BETWEEN ".$_[0]." AND ".$_[1];
+    queryHandler::execute($query);
+}
+
+sub insertFooBar {
+    my $query = "INSERT INTO ".TABLE_NAME." (ID, CODE, STATUS)"
+                ." VALUES (".$_[0].", '".$_[1]."', '".$_[2]."')";
+    queryHandler::execute($query);
+}
+
 #############################################################################
 return true;

@@ -62,7 +62,7 @@ sub getGraphImport {
 # return:
 #   string containing div and javascript reference
 #############################################################################
-sub startDiv {
+sub getDivStart {
     return "<div id='".$_[0]."'></div>
             <script type=\"text/javascript\">";
 }
@@ -74,7 +74,7 @@ sub startDiv {
 # return:
 #   string containing close script statement
 #############################################################################
-sub closeDiv {
+sub getDivClose {
     return "</script>";
 }
 

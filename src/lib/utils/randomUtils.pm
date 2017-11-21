@@ -46,7 +46,9 @@ sub getRandomString {
 #   random date
 #############################################################################
 sub getRandomDate {
-    return chomp `date +%Y%m%d`;
+    my $date = `date +%Y%m%d`;
+    chomp $date;
+    return $date;
 }
 
 #############################################################################

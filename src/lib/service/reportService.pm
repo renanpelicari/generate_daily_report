@@ -45,13 +45,13 @@ sub handleReport {
 
     # check if the constant to set graphs is true
     if (SET_GRAPHS) {
-        $fileContent .= graphHandler::populateGraph($graphType, \@values, $goal);
+        $fileContent .= graphHandler::getGraphContent($graphType, \@values, $goal);
     }
 
-    $fileContent .= commons::formatTableHeaderReport(\@columns);
-    $fileContent .= commons::formatTableElementReport(\@columns, \@values);
+    $fileContent .= commons::getTableHeaderReportFormat(\@columns);
+    $fileContent .= commons::getTableElementReportFormat(\@columns, \@values);
 
-    $fileContent .= htmlTable::closeTable();
+    $fileContent .= htmlTable::getTableClose();
 
     return $fileContent;
 }
@@ -67,7 +67,7 @@ sub getOverviewByStatus {
     my @values = fooBarDao::getOverviewByStatus();
 
     my $fileContent = handleReport($graphType, \@columns, \@values, $goal);
-    $fileContent .= commons::formatReport($title);
+    $fileContent .= commons::getReportHeaderFormat($title);
     return $fileContent;
 }
 
@@ -85,7 +85,7 @@ sub getOverviewWorkedTasks {
     my @values = fooBarDao::getTasksWorkedOverview($date_a, $date_b);
 
     my $fileContent = handleReport($graphType, \@columns, \@values, $goal);
-    $fileContent .= commons::formatReport($title);
+    $fileContent .= commons::getReportHeaderFormat($title);
     return $fileContent;
 }
 

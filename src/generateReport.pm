@@ -33,8 +33,8 @@
 #    How TO Use:
 #      You need to run in Linux or Unix like.
 #      Also need to be prepared to run perl scripts.
-#      A execute permission should be configured (chmod +x generateDailyReport.pl)
-#      And to check how to use, you just need to view the help menu: ./generateDailyReport.pl -h
+#      A execute permission should be configured (chmod +x generateReport.pl)
+#      And to check how to use, you just need to view the help menu: ./generateReport.pl -h
 # #####################################################################################################
 
 package generateReport;
@@ -45,7 +45,6 @@ package generateReport;
 use strict;
 use warnings;
 use Data::Dumper qw(Dumper);
-use Switch;
 
 # lib to handle date/time
 use POSIX qw(strftime);
@@ -88,13 +87,13 @@ sub run {
     my $shift = $_[0];
     my $daysBefore = $_[1];
 
-    my $fileContent = commons::buildHtmlStart();
+    my $fileContent = commons::getHtmlInitialStructure();
 
     interfaceUtils::header(DEFAULT_SEPARATOR);
     print "Shift: \t\t".$shift;
 
     # generate between date
-    my ($between_date_a, $between_date_b) = commons::generateBetweenDate($shift, $daysBefore);
+    my ($between_date_a, $between_date_b) = commons::getBetweenDates($shift, $daysBefore);
 
     # call the sub to handle with queries
     $fileContent .= reportService::getOverviewWorkedTasks($between_date_a, $between_date_b);
@@ -104,10 +103,10 @@ sub run {
     $fileContent .= logService::getLogs();
 
     # end the html
-    $fileContent .= html::finishBody();
+    $fileContent .= html::getBodyFinish();
 
     #return generated html file
-    return fileHandler::createFile($fileContent, DAILY_REPORT_NAME);
+    return fileHandler::createFileAndGetFilename($fileContent, DAILY_REPORT_NAME);
 }
 
 #############################################################################

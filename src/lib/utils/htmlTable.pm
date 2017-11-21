@@ -27,11 +27,11 @@ use warnings;
 # return:
 #   string containing start table statement
 #############################################################################
-sub startTable() {
+sub getTableStart {
     return "<table cellpadding='4px' cellspacing='0px'>";
 }
 
-sub closeTable() {
+sub getTableClose {
     return "</table>";
 }
 
@@ -41,18 +41,8 @@ sub closeTable() {
 # return:
 #   string containing start tr of header statement
 #############################################################################
-sub startHeaderLine() {
+sub getTrHeaderStart {
     return "<tr class='head'>";
-}
-
-#############################################################################
-# Routine to get close tr of header statement
-#
-# return:
-#   string containing close tr of header statement
-#############################################################################
-sub closeHeaderLine() {
-    return "</tr>";
 }
 
 #############################################################################
@@ -66,7 +56,7 @@ sub closeHeaderLine() {
 # return:
 #   string containing line start statement
 #############################################################################
-sub startLine() {
+sub getTrLineStart() {
     if ($_[0]) {
         return "<tr class='diff'>";
     }
@@ -74,16 +64,16 @@ sub startLine() {
 }
 
 #############################################################################
-# Routine to get close line in table statement
+# Routine to get close tr of header statement
 #
 # return:
-#   string containing close line in table statement
+#   string containing close tr of header statement
 #############################################################################
-sub closeLine() {
+sub getTrClose {
     return "</tr>";
 }
 
-sub applyColumn() {
+sub getTd() {
     return "<td>".$_[0]."</td>";
 }
 

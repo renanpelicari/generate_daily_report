@@ -46,7 +46,7 @@ use projectDefinitions qw(TIME_SHIFT_01_START TIME_SHIFT_01_FINISH TIME_SHIFT_02
 # sub to handle with days are less than 10
 # to guarantee 2 digits
 #############################################################################
-sub handleDay {
+sub getFormattedDay {
     my $day = $_[0];
 
     return ($day < 10) ? "0".$day : $day;
@@ -63,7 +63,7 @@ sub getInverseBool {
 # generate between date to use in the queries
 # based on the constants and alter session
 #############################################################################
-sub generateBetweenDate {
+sub getBetweenDates {
     my $shift = $_[0];
     my $daysBefore = $_[1];
 
@@ -77,7 +77,7 @@ sub generateBetweenDate {
 
     $day = ($daysBefore ne 0) ? $day - $daysBefore : $day;
 
-    $day = handleDay($day);
+    $day = getFormattedDay($day);
 
     my $today = $year."-".$mon."-".$day;
 
@@ -89,7 +89,7 @@ sub generateBetweenDate {
 
             ($day eq 1) ? $mon-- : $day--;
 
-            $day = handleDay($day);
+            $day = getFormattedDay($day);
             my $yesterday = $year."-".$mon."-".$day;
 
             $between_date_a = $yesterday." ".(($shift eq 2) ? TIME_SHIFT_02_START : TIME_SHIFT_01_START);
@@ -98,7 +98,7 @@ sub generateBetweenDate {
         } else {
 
             $day++;
-            $day = handleDay($day);
+            $day = getFormattedDay($day);
             my $tomorrow = $year."-".$mon."-".$day;
 
             $between_date_a = $today." ".(($shift eq 2) ? TIME_SHIFT_02_START : TIME_SHIFT_01_START);
@@ -118,13 +118,13 @@ sub generateBetweenDate {
 # return:
 #   string containing html, body, header, css, js definitions
 #############################################################################
-sub buildHtmlStart() {
-    my $fileContent = html::startHtml();
-    $fileContent .= html::startHeader();
+sub getHtmlInitialStructure {
+    my $fileContent = html::getHtmlStart();
+    $fileContent .= html::getHeadStart();
     $fileContent .= (SET_GRAPHS) ? htmlGraphDefine::getGraphImport() : "";
     $fileContent .= htmlStyleSheet::getCss();
-    $fileContent .= html::finishHeader();
-    $fileContent .= html::startBody();
+    $fileContent .= html::getHeadClose();
+    $fileContent .= html::getBodyStart();
 
     return $fileContent;
 }
@@ -133,30 +133,30 @@ sub buildHtmlStart() {
 # handle with queries
 # each query are in the case
 #############################################################################
-sub formatReport {
+sub getReportHeaderFormat {
     my $title = $_[0];
 
     interfaceUtils::header(DEFAULT_SEPARATOR);
 
     print BOLD, YELLOW, "> ".$title, RESET;
 
-    return html::applyHeader($title);
+    return html::getH1($title);
 }
 
 #############################################################################
 # handle with queries
 # each query are in the case
 #############################################################################
-sub formatTableHeaderReport {
+sub getTableHeaderReportFormat {
     my @columns = @{$_[0]};
 
     # show at shell
     print "\n\n";
-    interfaceUtils::addTableLine(\@columns);
+    interfaceUtils::showTableLine(\@columns);
 
     # store into file to build html
-    my $fileContent = htmlTable::startTable();
-    $fileContent .= interfaceUtils::addTableElement(\@columns, "header");
+    my $fileContent = htmlTable::getTableStart();
+    $fileContent .= interfaceUtils::showTableElement(\@columns, "header");
 
     return $fileContent;
 }
@@ -165,19 +165,19 @@ sub formatTableHeaderReport {
 # handle with queries
 # each query are in the case
 #############################################################################
-sub formatTableElementReport {
+sub getTableElementReportFormat {
     my @values = @{$_[0]};
     my $lineDiff = true;    # var to control the colored tr in table
 
     # show at shell
     print "\n\n";
 
-    interfaceUtils::addTableLine(\@{$values[0]});
+    interfaceUtils::showTableLine(\@{$values[0]});
 
     my $fileContent = "";
     foreach my $data (@values) {
         $lineDiff = getInverseBool($lineDiff);
-        $fileContent .= interfaceUtils::addTableElement(\@{$data}, "element", $lineDiff);
+        $fileContent .= interfaceUtils::showTableElement(\@{$data}, "element", $lineDiff);
     }
 
     return $fileContent;
