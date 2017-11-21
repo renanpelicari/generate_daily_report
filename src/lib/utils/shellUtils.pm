@@ -22,13 +22,10 @@ use strict;
 use warnings;
 
 #############################################################################
-# execute commands at shell
+# execute shell command
 #############################################################################
 sub executeCommand {
-    my $command = $_[0];
-    my $result = "";
-
-    $result = `$command`;
+    my $result = `$_[0]`;
 
     # remove the blank space
     chomp $result;

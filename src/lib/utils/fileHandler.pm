@@ -50,7 +50,7 @@ sub showFiles {
 # return:
 #   the name of file generated
 #############################################################################
-sub createFile {
+sub createFileAndGetFilename {
     my $content = $_[0];
     my $prefix = $_[1];
 
@@ -84,7 +84,7 @@ sub createFile {
 #   @resultFiles    -> array containing filenames that will move
 #   $autoConfirm    -> flag to inform if file will be move
 #############################################################################
-sub moveToGenerateFilesFolder {
+sub moveGeneratedFileToDefinedFolder {
     my @resultFiles = @{$_[0]};
     my $autoConfirm = $_[1];
 

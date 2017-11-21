@@ -51,7 +51,7 @@ sub getGraphCounter {
 # return:
 #   string containing html content to build graph
 #############################################################################
-sub populateGraph {
+sub getGraphContent {
     my $graphType = $_[0];
     my @values = @{$_[1]};
     my $goal = $_[2];
@@ -59,7 +59,7 @@ sub populateGraph {
     my $graphCtrl = "graph-".getGraphCounter();
 
     # add a graph div
-    my $fileContent = htmlGraphDefine::startDiv($graphCtrl);
+    my $fileContent = htmlGraphDefine::getDivStart($graphCtrl);
 
     # start to add the content of graph
     $fileContent .= "Morris.".$graphType."({ element: '".$graphCtrl."', data: [";
@@ -104,7 +104,7 @@ sub populateGraph {
     }
     $fileContent .= " , hideHover: 'always', xLabelAngle: 60 }).on('click', function(i, row){ console.log(i, row);});";
 
-    $fileContent .= htmlGraphDefine::closeDiv();
+    $fileContent .= htmlGraphDefine::getDivClose();
 
     return $fileContent;
 }

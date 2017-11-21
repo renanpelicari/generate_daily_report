@@ -47,7 +47,7 @@ sub header {
 #############################################################################
 # add line in the "table" to output on the server
 #############################################################################
-sub addTableLine {
+sub showTableLine {
     my @columns = @{$_[0]};
 
     foreach (@columns) {
@@ -61,7 +61,7 @@ sub addTableLine {
 #############################################################################
 # add info in the html tables, also show in the server
 #############################################################################
-sub addTableElement {
+sub showTableElement {
     my @data = @{$_[0]};
     my $elementType = $_[1];
     my $lineStyle = $_[2];
@@ -70,22 +70,22 @@ sub addTableElement {
 
     # check if the header will be for a header, otherwise a simple tr will be used
     $fileContent .= ($elementType eq "header")
-        ? htmlTable::startHeaderLine()
-        : htmlTable::startLine($lineStyle);
+        ? htmlTable::getTrHeaderStart()
+        : htmlTable::getTrLineStart($lineStyle);
 
     foreach (@data) {
         if (defined($_)) {
             printf "| %-20s", $_;
-            $fileContent .= htmlTable::applyColumn($_);
+            $fileContent .= htmlTable::getTd($_);
         }
     }
 
     # close the tr
-    $fileContent .= htmlTable::closeLine();
+    $fileContent .= htmlTable::getTrClose();
     print "|\n";
 
     # add more lines with dash ---
-    addTableLine(\@data);
+    showTableLine(\@data);
 
     return $fileContent;
 }

@@ -87,13 +87,13 @@ sub run {
     my $shift = $_[0];
     my $daysBefore = $_[1];
 
-    my $fileContent = commons::buildHtmlStart();
+    my $fileContent = commons::getHtmlInitialStructure();
 
     interfaceUtils::header(DEFAULT_SEPARATOR);
     print "Shift: \t\t".$shift;
 
     # generate between date
-    my ($between_date_a, $between_date_b) = commons::generateBetweenDate($shift, $daysBefore);
+    my ($between_date_a, $between_date_b) = commons::getBetweenDates($shift, $daysBefore);
 
     # call the sub to handle with queries
     $fileContent .= reportService::getOverviewWorkedTasks($between_date_a, $between_date_b);
@@ -103,10 +103,10 @@ sub run {
     $fileContent .= logService::getLogs();
 
     # end the html
-    $fileContent .= html::finishBody();
+    $fileContent .= html::getBodyFinish();
 
     #return generated html file
-    return fileHandler::createFile($fileContent, DAILY_REPORT_NAME);
+    return fileHandler::createFileAndGetFilename($fileContent, DAILY_REPORT_NAME);
 }
 
 #############################################################################

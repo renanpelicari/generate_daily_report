@@ -39,13 +39,13 @@ sub handleLogs {
 
     # check if the constant to set graphs is true
     if (SET_GRAPHS) {
-        $fileContent .= graphHandler::populateGraph($graphType, \@values, false);
+        $fileContent .= graphHandler::getGraphContent($graphType, \@values, false);
     }
 
-    $fileContent .= commons::formatTableHeaderReport(\@columns);
-    $fileContent .= commons::formatTableElementReport(\@columns, \@values);
+    $fileContent .= commons::getTableHeaderReportFormat(\@columns);
+    $fileContent .= commons::getTableElementReportFormat(\@columns, \@values);
 
-    $fileContent .= htmlTable::closeTable();
+    $fileContent .= htmlTable::getTableClose();
 
     return $fileContent;
 }

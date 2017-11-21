@@ -61,7 +61,7 @@ use constant FOOBAR_ID_FINISH => -2000;
 #############################################################################
 # missing doc
 #############################################################################
-sub cleanHandler {
+sub cleanData {
     interfaceUtils::header(DEFAULT_SEPARATOR);
     print "Generate Fake Data: \t\t Cleanup Routine";
 
@@ -72,7 +72,7 @@ sub cleanHandler {
 #############################################################################
 # missing doc
 #############################################################################
-sub insertHandler {
+sub insertData {
     interfaceUtils::header(DEFAULT_SEPARATOR);
     print "Generate Fake Data: \t\t Insert Routine";
 
@@ -128,11 +128,11 @@ sub main {
 
     # check the shift that were informed
     if (defined($options{c})) {
-        cleanHandler();
+        cleanData();
     }
 
     if (defined($options{q})) {
-        insertHandler();
+        insertData();
     }
 
     messageUtils::wrongUsage("None or wrong parameter was informed!");

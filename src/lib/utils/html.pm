@@ -26,7 +26,7 @@ use warnings;
 # return:
 #   string containing html declaration
 #############################################################################
-sub startHtml() {
+sub getHtmlStart() {
     return "<!doctype html>";
 }
 
@@ -36,7 +36,7 @@ sub startHtml() {
 # return:
 #   string containing html close statement
 #############################################################################
-sub closeHtml() {
+sub getHtmlClose() {
     return "</html>";
 }
 
@@ -46,7 +46,7 @@ sub closeHtml() {
 # return:
 #   string containing start header statement
 #############################################################################
-sub startHeader() {
+sub getHeadStart() {
     return "<head>";
 }
 
@@ -56,7 +56,7 @@ sub startHeader() {
 # return:
 #   string containing header close statement
 #############################################################################
-sub finishHeader() {
+sub getHeadClose() {
     return "</head>";
 }
 
@@ -66,7 +66,7 @@ sub finishHeader() {
 # return:
 #   string containing start body statement
 #############################################################################
-sub startBody() {
+sub getBodyStart() {
     return "<bod>";
 }
 
@@ -76,7 +76,7 @@ sub startBody() {
 # return:
 #   string containing close body statement
 #############################################################################
-sub finishBody() {
+sub getBodyFinish() {
     return "</body>";
 }
 
@@ -89,7 +89,7 @@ sub finishBody() {
 # return:
 #   string containing close body statement
 #############################################################################
-sub applyHeader() {
+sub getH1() {
     return "<h1>".$_[0]."</h1>";
 }
 
