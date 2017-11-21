@@ -9,6 +9,7 @@
 	    - Message (log, error, info) handlers;
 	Also containing usefull scripts, like:
 	    - generateReport.pl     - generate html report containing table and graphs, based on queries
+	    - generateFakeData.pl   - script to facilitate add or exlcude massive data (insert and delete)
     
 # About project:
     With purpose to help and provide some routines that can be useful, it was made to share with community :)
