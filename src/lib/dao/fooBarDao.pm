@@ -43,7 +43,7 @@ use constant STATUS_ATTR => "STATUS";
 sub getNewCode {
     my $query = queryHandler::selectAny(TABLE_NAME, CODE_ATTR, PK_ID);
 
-    return queryHandler::getNextElement($query);
+    return queryHandler::getNewElement($query);
 }
 
 #############################################################################
@@ -119,22 +119,45 @@ sub getOverviewByStatus {
     return queryHandler::getElements($query);
 }
 
+#############################################################################
+# (void) delete record based on id
+# params:
+#   id
+##############################################################################
 sub deleteById {
     my $query = "DELETE FROM ".TABLE_NAME." WHERE ID = ".$_[0];
     queryHandler::execute($query);
 
 }
 
+#############################################################################
+# (void) delete records based on ids
+# params:
+#   list of ids
+##############################################################################
 sub deleteByIdIn {
     my $query = "DELETE FROM ".TABLE_NAME." WHERE ID IN (".@{$_[0]}.")";
     queryHandler::execute($query);
 }
 
+#############################################################################
+# (void) delete records based on range of ids
+# params:
+#   $startId    -> int - first id of range
+#   $lastId     -> int - last id of range
+##############################################################################
 sub deleteByIdBetween {
     my $query = "DELETE FROM ".TABLE_NAME." WHERE ID BETWEEN ".$_[0]." AND ".$_[1];
     queryHandler::execute($query);
 }
 
+#############################################################################
+# (void) insert new foo bar record
+# params:
+#   $id      -> int
+#   $code    -> string
+#   $status  -> string
+##############################################################################
 sub insertFooBar {
     my $query = "INSERT INTO ".TABLE_NAME." (ID, CODE, STATUS)"
                 ." VALUES (".$_[0].", '".$_[1]."', '".$_[2]."')";

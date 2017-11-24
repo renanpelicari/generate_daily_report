@@ -89,7 +89,10 @@ sub dbDisconnect {
 }
 
 #############################################################################
-# subroutine to set the session to handling with date easily
+# (void) routine to set the session to alter session
+# in order to handling with date easily
+# params:
+#   $db -> db connection
 #############################################################################
 sub dbAlterSession {
     my $db = $_[0];

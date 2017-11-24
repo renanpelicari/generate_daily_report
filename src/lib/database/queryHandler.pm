@@ -35,7 +35,12 @@ require 'messageUtils.pm';
 require 'connectionHandler.pm';
 
 #############################################################################
-# subroutine to get element
+# routine to get element
+# params:
+#   $query -> string containing the sql query
+#
+# return:
+#   only one element - the value for field in select query
 #############################################################################
 sub getElement {
     my $query = $_[0];
@@ -56,8 +61,14 @@ sub getElement {
 
     return $elem;
 }
+
 #############################################################################
-# subroutine to get elements
+# routine to get a list of elements
+# params:
+#   $query -> string containing the sql query
+#
+# return:
+#   list of elements - the values for field in select query (just for one field)
 #############################################################################
 sub getElements {
     my $query = $_[0];
@@ -78,9 +89,15 @@ sub getElements {
 }
 
 #############################################################################
-# subroutine to get next element
+# routine to get last element and increment one, generating a new element
+# ps: used mainly for sequence attributes (PK), like ID
+# params:
+#   $query -> string containing the sql query
+#
+# return:
+#   the new element
 #############################################################################
-sub getNextElement {
+sub getNewElement {
     my $query = $_[0];
 
     my $element = getElement($query);
@@ -89,7 +106,12 @@ sub getNextElement {
 }
 
 #############################################################################
-# subroutine to check if exists
+# routine that check if element exists
+# params:
+#   $query -> string containing the sql query
+#
+# return:
+#   1/0 (true or false)
 #############################################################################
 sub exists {
     return getElement($_[0]) ne 0;
@@ -147,7 +169,15 @@ sub selectAny {
     die "FATAL ERROR: Database connection is not defined!"
 }
 
-
+#############################################################################
+# routine to execute query and return the result of execution
+# whit the return is possible to handle with record set as you wish
+# params:
+#   $query -> string containing the sql query
+#
+# return:
+#   the result of statement handle execution
+#############################################################################
 sub execute {
     my $query = $_[0];
 

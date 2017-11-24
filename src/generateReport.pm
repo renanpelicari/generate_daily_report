@@ -93,7 +93,7 @@ sub run {
     print "Shift: \t\t".$shift;
 
     # generate between date
-    my ($between_date_a, $between_date_b) = commons::getBetweenDates($shift, $daysBefore);
+    my ($between_date_a, $between_date_b) = commons::getBetweenShiftTime($shift, $daysBefore);
 
     # call the sub to handle with queries
     $fileContent .= reportService::getOverviewWorkedTasks($between_date_a, $between_date_b);

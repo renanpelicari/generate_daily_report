@@ -22,7 +22,11 @@ use strict;
 use warnings;
 
 #############################################################################
-# execute shell command
+# routine to execute commands in linux shell
+# params:
+#   $_[0]    -> command
+# return:
+#   string with result of command
 #############################################################################
 sub executeCommand {
     my $result = `$_[0]`;

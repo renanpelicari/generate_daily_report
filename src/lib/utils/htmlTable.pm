@@ -22,15 +22,21 @@ use strict;
 use warnings;
 
 #############################################################################
-# Routine to get start table statement
+# Routine to get table start statement
 #
 # return:
-#   string containing start table statement
+#   string containing table start statement
 #############################################################################
 sub getTableStart {
     return "<table cellpadding='4px' cellspacing='0px'>";
 }
 
+#############################################################################
+# Routine to get table close statement
+#
+# return:
+#   string containing table close statement
+#############################################################################
 sub getTableClose {
     return "</table>";
 }
@@ -73,6 +79,15 @@ sub getTrClose {
     return "</tr>";
 }
 
+#############################################################################
+# Routine to apply data between TD tags and get the concatenate statement
+#
+# params:
+#   $_[0]   -> data that will show between of td tags
+#
+# return:
+#   string containing <td>$var</td>
+#############################################################################
 sub getTd() {
     return "<td>".$_[0]."</td>";
 }

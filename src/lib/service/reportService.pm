@@ -9,7 +9,7 @@
 #   	renanpelicari@gmail.com
 #
 #    Revision:
-#   	1.1b	- 2017-11-13    - First version
+#   	1.0b	- 2017-11-13    - First version
 #
 # #####################################################################################################
 
@@ -34,6 +34,15 @@ require 'fooBarDao.pm';
 #############################################################################
 # routine to handle with reports
 # like call routines to execute queries, generate html, graphs, logs
+#
+# params:
+#   $graphType     -> type of graph, the available ones: Line, Bar, Donut
+#   @columns       -> array containing columns to show at table
+#   @values        -> array containing values for each column
+#   $goal          -> boolean flag to inform if will show or not goal at graphs
+#
+# return:
+#   string containing part of generated html (graph and table)
 #############################################################################
 sub handleReport {
     my $graphType = $_[0];
@@ -57,7 +66,10 @@ sub handleReport {
 }
 
 #############################################################################
-# get file content containing overview by status
+# routine to get file content containing overview by status
+#
+# return:
+#   string containing part of generated html
 #############################################################################
 sub getOverviewByStatus {
     my $goal = false;
@@ -72,17 +84,24 @@ sub getOverviewByStatus {
 }
 
 #############################################################################
-# get file content containing overview worked tasks
+# routine to get file content containing overview worked tasks
+#
+# params:
+#   $dateStart     -> the start date of range
+#   $dateFinish    -> the finish date of range
+#
+# return:
+#   string containing part of generated html
 #############################################################################
 sub getOverviewWorkedTasks {
-    my $date_a = $_[0];
-    my $date_b = $_[1];
+    my $dateStart = $_[0];
+    my $dateFinish = $_[1];
 
     my $goal = false;
     my $title = "Tasks that were worked during the shift";
     my @columns = ("Status", "Quantity");
     my $graphType = "Bar";
-    my @values = fooBarDao::getTasksWorkedOverview($date_a, $date_b);
+    my @values = fooBarDao::getTasksWorkedOverview($dateStart, $dateFinish);
 
     my $fileContent = handleReport($graphType, \@columns, \@values, $goal);
     $fileContent .= commons::getReportHeaderFormat($title);

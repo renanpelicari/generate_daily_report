@@ -25,7 +25,7 @@ use Exporter qw(import);
 #############################################################################
 # get random string
 # params:
-#   quantity    -> delimit maximum length
+#   $quantity    -> delimit maximum length
 # return:
 #   a random string
 #############################################################################
