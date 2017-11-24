@@ -37,11 +37,6 @@ use Term::ANSIColor qw(:constants); # text format (color/bold)
 use globalDefinitions qw(true false DEFAULT_SEPARATOR);
 use projectDefinitions qw(TIME_SHIFT_01_START TIME_SHIFT_01_FINISH TIME_SHIFT_02_START TIME_SHIFT_02_FINISH SET_GRAPHS);
 
-#require 'html.pm';
-#require 'htmlGraphDefine.pm';
-#require 'htmlStyleSheet.pm';
-#require 'htmlTable.pm';
-
 #############################################################################
 # sub to handle with days are less than 10, in order to guarantee 2 digits
 #
