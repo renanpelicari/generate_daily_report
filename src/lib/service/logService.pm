@@ -1,15 +1,15 @@
 # #####################################################################################################
-#    Script:
-#   	logService.pl
+#   Script:
+#       logService.pl
 #
-#    Description:
-#   	This to handler with reports#
+#   Description:
+#   	This script handle with logs for generate table and graph
 #
-#    Author:
-#   	renanpelicari@gmail.com
+#   Author:
+#     	renanpelicari@gmail.com
 #
-#    Revision:
-#   	1.1b	- 2017-11-13    - First version
+#   Revision:
+#       1.0b	- 2017-11-13    - First version
 #
 # #####################################################################################################
 
@@ -28,7 +28,11 @@ use globalDefinitions qw(false);
 use projectDefinitions qw(SET_GRAPHS);
 
 #############################################################################
-# sub to receive array of log summary and generate donut graphs
+# this routine call routines to generate table and graph based on log info
+# params:
+#   @values  -> array containing two parameters
+#               first - string - description of log
+#               second - int - amount of occurrences for that log
 #############################################################################
 sub handleLogs {
     my @values = @{$_[0]};
@@ -51,7 +55,9 @@ sub handleLogs {
 }
 
 #############################################################################
-# get quantity dmesg errors
+# execute command to get info for dmesg
+# return:
+#   array containing log info and quantity of occurrences
 #############################################################################
 sub getDmesgError() {
     return ("Dmesg Errors",
@@ -59,7 +65,9 @@ sub getDmesgError() {
 }
 
 #############################################################################
-# get quantity of root access
+# execute command to get quantity of root auth
+# return:
+#   array containing log info and quantity of occurrences
 #############################################################################
 sub getRootAccess() {
     return ("Root Access",
@@ -67,7 +75,10 @@ sub getRootAccess() {
 }
 
 #############################################################################
-# get all logs
+# orchestrate get execution of command, transform result in array and call
+# routine to handle with logs
+# return:
+#   array of array, containing result for getDmesgError and getRootAccess routines
 #############################################################################
 sub getLogs() {
     return handleLogs(getDmesgError(), getRootAccess());

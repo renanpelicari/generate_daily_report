@@ -28,7 +28,7 @@ require 'htmlTable.pm';
 use globalDefinitions qw(true HEADER_SEPARATOR_SIZE DEFAULT_SEPARATOR);
 
 #############################################################################
-# iterator to generate separator to be a good look (more less) at shell :)
+# iterator to generate separator to show friendly (or more less) at shell :)
 # params:
 #   $_[0]   -> string with separator definition
 # return:

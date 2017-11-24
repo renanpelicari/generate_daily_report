@@ -31,7 +31,12 @@ use globalDefinitions qw(true);
 
 require 'htmlGraphDefine.pm';
 
-# get graph ctrl
+#############################################################################
+# routine to get global graph counter and increment new one
+#
+# return:
+#   int with global graph counter
+#############################################################################
 sub getGraphCounter {
     return ++$globalDefinitions::_GLOBAL_GRAPH_COUNTER;
 }

@@ -43,32 +43,49 @@ use projectDefinitions qw(TIME_SHIFT_01_START TIME_SHIFT_01_FINISH TIME_SHIFT_02
 #require 'htmlTable.pm';
 
 #############################################################################
-# sub to handle with days are less than 10
-# to guarantee 2 digits
+# sub to handle with days are less than 10, in order to guarantee 2 digits
+#
+# params:
+#   $_[0]    -> int containing just the day
+#
+# return:
+#   day with 2 digits
 #############################################################################
 sub getFormattedDay {
-    my $day = $_[0];
-
-    return ($day < 10) ? "0".$day : $day;
+    return ("%02d", $_[0]);
 }
 
 #############################################################################
-# return different inverse line
+# routine to get opposite value of boolean
+#
+# params:
+#   $_[0]   -> current value for boolean
+#
+# return:
+#   the opposite value for boolean
 #############################################################################
 sub getInverseBool {
     return (!$_[0] eq true);
 }
 
 #############################################################################
-# generate between date to use in the queries
+# routine to generate start and finish time for shifts
 # based on the constants and alter session
+
+# params:
+#   $shift        -> the shift name
+#   $daysBefore   -> quantity of days before current (or 0 for today),
+#                    to know range of datetime
+#
+# return:
+#   the opposite value for boolean
 #############################################################################
-sub getBetweenDates {
+sub getBetweenShiftTime {
     my $shift = $_[0];
     my $daysBefore = $_[1];
 
-    my $between_date_a = "";
-    my $between_date_b = "";
+    my $startDateTime = "";
+    my $finishDateTime = "";
 
     my $year = strftime "%Y", localtime;
     my $mon = strftime "%m", localtime;
@@ -82,8 +99,8 @@ sub getBetweenDates {
     my $today = $year."-".$mon."-".$day;
 
     if ($shift eq 1) {
-        $between_date_a = $today." ".TIME_SHIFT_01_START;
-        $between_date_b = $today." ".TIME_SHIFT_01_FINISH;
+        $startDateTime = $today." ".TIME_SHIFT_01_START;
+        $finishDateTime = $today." ".TIME_SHIFT_01_FINISH;
     } else {
         if (($daysBefore ne 0) || (($hour >= 0) && ($hour <= 7))) {
 
@@ -92,8 +109,8 @@ sub getBetweenDates {
             $day = getFormattedDay($day);
             my $yesterday = $year."-".$mon."-".$day;
 
-            $between_date_a = $yesterday." ".(($shift eq 2) ? TIME_SHIFT_02_START : TIME_SHIFT_01_START);
-            $between_date_b = $today." ".TIME_SHIFT_02_FINISH;
+            $startDateTime = $yesterday." ".(($shift eq 2) ? TIME_SHIFT_02_START : TIME_SHIFT_01_START);
+            $finishDateTime = $today." ".TIME_SHIFT_02_FINISH;
 
         } else {
 
@@ -101,15 +118,15 @@ sub getBetweenDates {
             $day = getFormattedDay($day);
             my $tomorrow = $year."-".$mon."-".$day;
 
-            $between_date_a = $today." ".(($shift eq 2) ? TIME_SHIFT_02_START : TIME_SHIFT_01_START);
-            $between_date_b = $tomorrow." ".TIME_SHIFT_02_FINISH;
+            $startDateTime = $today." ".(($shift eq 2) ? TIME_SHIFT_02_START : TIME_SHIFT_01_START);
+            $finishDateTime = $tomorrow." ".TIME_SHIFT_02_FINISH;
         }
     }
 
-    print "\nStart at: \t".$between_date_a;
-    print "\nFinish at: \t".$between_date_b."\n";
+    print "\nStart at: \t".$startDateTime;
+    print "\nFinish at: \t".$finishDateTime."\n";
 
-    return ($between_date_a, $between_date_b);
+    return ($startDateTime, $finishDateTime);
 }
 
 #############################################################################
@@ -130,8 +147,13 @@ sub getHtmlInitialStructure {
 }
 
 #############################################################################
-# handle with queries
-# each query are in the case
+# routine to get report header format
+#
+# params:
+#   $title  -> title to show in H1 html tag
+#
+# return:
+#   content of H1
 #############################################################################
 sub getReportHeaderFormat {
     my $title = $_[0];
@@ -144,8 +166,13 @@ sub getReportHeaderFormat {
 }
 
 #############################################################################
-# handle with queries
-# each query are in the case
+# routine to get table header report format
+#
+# params:
+#   @columns  -> array containing columns to show in table
+#
+# return:
+#   html content with table header
 #############################################################################
 sub getTableHeaderReportFormat {
     my @columns = @{$_[0]};
@@ -162,14 +189,18 @@ sub getTableHeaderReportFormat {
 }
 
 #############################################################################
-# handle with queries
-# each query are in the case
+# routine to get table element report format
+#
+# params:
+#   @values  -> array containing values for each column to show in table
+#
+# return:
+#   html content with table elements
 #############################################################################
 sub getTableElementReportFormat {
     my @values = @{$_[0]};
-    my $lineDiff = true;    # var to control the colored tr in table
 
-    # show at shell
+    my $lineDiff = true;    # var to control the colored tr in table
     print "\n\n";
 
     interfaceUtils::showTableLine(\@{$values[0]});

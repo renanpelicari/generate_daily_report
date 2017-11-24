@@ -28,7 +28,7 @@ require 'interfaceUtils.pm';
 use globalDefinitions qw(true DEFAULT_SEPARATOR);
 
 #############################################################################
-# subroutine to exit the script
+# (void) subroutine to exit the script
 #############################################################################
 sub quit {
     interfaceUtils::header(DEFAULT_SEPARATOR);
